@@ -13,3 +13,11 @@ D:\ChatProj\Server\User\obj\Debug\net8.0\User.pdb
 D:\ChatProj\Server\User\obj\Debug\net8.0\User.genruntimeconfig.cache
 D:\ChatProj\Server\User\obj\Debug\net8.0\ref\User.dll
 D:\ChatProj\Server\User\obj\Debug\net8.0\User.sourcelink.json
+D:\ChatProj\Server\User\bin\Debug\net8.0\System.Data.SqlClient.dll
+D:\ChatProj\Server\User\bin\Debug\net8.0\runtimes\win-arm64\native\sni.dll
+D:\ChatProj\Server\User\bin\Debug\net8.0\runtimes\win-x64\native\sni.dll
+D:\ChatProj\Server\User\bin\Debug\net8.0\runtimes\win-x86\native\sni.dll
+D:\ChatProj\Server\User\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\ChatProj\Server\User\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\ChatProj\Server\User\obj\Debug\net8.0\User.csproj.AssemblyReference.cache
+D:\ChatProj\Server\User\obj\Debug\net8.0\User.csproj.CopyComplete

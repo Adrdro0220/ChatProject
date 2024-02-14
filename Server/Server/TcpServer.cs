@@ -33,20 +33,22 @@ namespace Server
             {
                 TcpClient client = await _listener.AcceptTcpClientAsync();
                 _clients.Add(client);
-                await Console.Out.WriteLineAsync("klient został połączony");
+                Console.WriteLine("Klient został połączony");
 
                 // Start asynchronous data reading for the new client
-                await Task.Run(() => HandleClientAsync(client));
+                Task.Run(() => HandleClientAsync(client));
             }
         }
 
         private async Task HandleClientAsync(TcpClient client)
         {
+            string uniqueId = Guid.NewGuid().ToString();
             _stream = client.GetStream();
             if (_stream != null)
             {
                 while (true)
                 {
+                    await Console.Out.WriteLineAsync($"Klient o id {uniqueId} połączył się ");
                     byte[] buffer = new byte[256];
                     int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
 
@@ -85,6 +87,5 @@ namespace Server
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
-
     }
 }

@@ -7,12 +7,27 @@ class Program
 {
     static async Task Main()
     {
-        Conn conn = new Conn();
-
-       
-        while (true)
+        
+        await Console.Out.WriteLineAsync("Username...");
+        Conn.Username = Console.ReadLine();
+        await Console.Out.WriteLineAsync("Password...");
+        Conn.Password = Console.ReadLine();
+        if (Conn.ServerAcces())
         {
-            await conn.SendMessageToServerAsync(Console.ReadLine());
+            Conn conn = new Conn();
+
+            while (true)
+            {
+                await conn.SendMessageToServerAsync(Console.ReadLine());
+            }
         }
+        else
+        {
+            await Console.Out.WriteLineAsync("Sorry you are not one of our users");
+            Thread.Sleep(2000);
+
+        }
+        
+       
     }
 }
