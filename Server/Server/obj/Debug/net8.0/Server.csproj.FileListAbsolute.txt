@@ -30,3 +30,4 @@ D:\ChatProj\Server\Server\bin\Debug\net8.0\DotNetty.Handlers.dll
 D:\ChatProj\Server\Server\bin\Debug\net8.0\DotNetty.Transport.dll
 D:\ChatProj\Server\Server\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 D:\ChatProj\Server\Server\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+D:\ChatProj\Server\Server\obj\Debug\net8.0\Server.sourcelink.json

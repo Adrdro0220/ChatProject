@@ -12,3 +12,4 @@ D:\ChatProj\Server\User\obj\Debug\net8.0\refint\User.dll
 D:\ChatProj\Server\User\obj\Debug\net8.0\User.pdb
 D:\ChatProj\Server\User\obj\Debug\net8.0\User.genruntimeconfig.cache
 D:\ChatProj\Server\User\obj\Debug\net8.0\ref\User.dll
+D:\ChatProj\Server\User\obj\Debug\net8.0\User.sourcelink.json

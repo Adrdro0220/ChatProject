@@ -10,6 +10,8 @@ namespace User
     {
         public async static Task<byte[]> EncryptMessage(string message, string key)
         {
+            byte[] cipheredText;
+            String simpletext = string.Empty;
             using (Aes aesAlg = Aes.Create())
             {
                 aesAlg.Key = Encoding.UTF8.GetBytes(key);
@@ -23,42 +25,39 @@ namespace User
                     {
                         using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                         {
-                            await swEncrypt.WriteAsync(message);
+                            swEncrypt.Write(message);
+                            swEncrypt.Close(); // Zamknij StreamWriter przed zamknięciem CryptoStream
                         }
                     }
-                    return msEncrypt.ToArray();
+                    cipheredText = msEncrypt.ToArray();
                 }
             }
+            return cipheredText;
         }
 
-        public async static Task<string> DecryptMessage(string encryptedMessage, string key)
+        public async static Task<string> DecryptMessage(byte[] cipheredText, string key)
         {
-            try
+            string simpleText = String.Empty;
+            using (Aes aesAlg = Aes.Create())
             {
-                using (Aes aesAlg = Aes.Create())
+
+                aesAlg.Key = Encoding.UTF8.GetBytes(key);
+                aesAlg.IV = new byte[16]; // Ensure this matches the IV used for encryption.
+
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                using (MemoryStream msDecrypt = new MemoryStream(cipheredText))
                 {
-                    aesAlg.Key = Encoding.UTF8.GetBytes(key);
-                    aesAlg.IV = new byte[16]; // Ensure this matches the IV used for encryption.
-
-                    ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                    using (MemoryStream msDecrypt = new MemoryStream(Convert.FromBase64String(encryptedMessage)))
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-                        using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
                         {
-                            using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                            {
-                                return await srDecrypt.ReadToEndAsync();
-                            }
+                            simpleText = srDecrypt.ReadToEnd();
                         }
                     }
                 }
             }
-            catch (FormatException fe)
-            {
-                // Log or handle the format exception related to Base-64 encoding issues.
-                throw new ApplicationException("The provided string is not in a valid Base-64 format.", fe);
-            }
+            return simpleText;
         }
     }
 }

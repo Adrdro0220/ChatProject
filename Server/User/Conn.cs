@@ -14,15 +14,12 @@ namespace User
         {
             _client = new TcpClient("127.0.0.1", 13000);
             _stream = _client.GetStream();
-
             Task.Run(async () => await ReceiveMessagesAsync()); // Uruchomienie asynchronicznej metody do odbierania wiadomości
         }
 
         public async Task SendMessageToServerAsync(string message)
         {
             var encryptedData = DecryptionFromServer.EncryptMessage(message,EncryptionKey);
-            
-            
             await _stream.WriteAsync(encryptedData.Result, 0, encryptedData.Result.Length);
         }
 
@@ -35,8 +32,8 @@ namespace User
 
                 if (bytesRead > 0)
                 {
-                    string receivedData = Encoding.ASCII.GetString(data, 0, bytesRead);
-                    string decryptedStream = await DecryptionFromServer.DecryptMessage(receivedData, EncryptionKey);
+                   
+                    string decryptedStream = await DecryptionFromServer.DecryptMessage(data, EncryptionKey);
                     Console.WriteLine($"Received: {decryptedStream}");
                 }
             }

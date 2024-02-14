@@ -42,23 +42,25 @@ namespace Server
 
         private async Task HandleClientAsync(TcpClient client)
         {
-                _stream = client.GetStream();
-                if (_stream != null)
+            _stream = client.GetStream();
+            if (_stream != null)
+            {
+                while (true)
                 {
-                    while (true)
-                    {
-                    byte[] data = new byte[256];
-                    int bytesRead = await _stream.ReadAsync(data, 0, data.Length);
+                    byte[] buffer = new byte[256];
+                    int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
 
                     if (bytesRead > 0)
                     {
-                        string receivedData = Encoding.ASCII.GetString(data, 0, bytesRead);
-                        string decryptedStream = await EncryptionToServer.DecryptMessage(receivedData, EncryptionKey);
+                        byte[] data = new byte[bytesRead];
+                        Array.Copy(buffer, data, bytesRead);
+                        string decryptedStream = await EncryptionToServer.DecryptMessage(data, EncryptionKey);
                         Console.WriteLine($"Received: {decryptedStream}");
                     }
                 }
-                }
+            }
         }
+
 
         public async Task BroadcastToClients()
         {
@@ -75,8 +77,9 @@ namespace Server
             try
             {
                 var tcpStream = client.GetStream();
-                byte[] data = Encoding.UTF8.GetBytes(message);
-                tcpStream.Write(data, 0, data.Length);
+                System.Threading.Tasks.Task<byte[]> data = EncryptionToServer.EncryptMessage(message, EncryptionKey);
+                tcpStream.Write(data.Result, 0, data.Result.Length);
+
             }
             catch (Exception ex)
             {
@@ -84,18 +87,6 @@ namespace Server
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
-        public static byte[] ReadFully(Stream input)
-        {
-            byte[] buffer = new byte[16 * 1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
-        }
+        
     }
 }
