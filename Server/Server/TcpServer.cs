@@ -67,19 +67,17 @@ namespace Server
             string message = Console.ReadLine();
             foreach (var connectedClient in _clients)
             {
-                var tempMessage = await EncryptionToServer.EncryptMessage(message, EncryptionKey);
-                SendToClient(connectedClient, tempMessage.ToString());
+                byte[] tempMessage = await EncryptionToServer.EncryptMessage(message, EncryptionKey);
+                SendToClient(connectedClient, tempMessage);
             }
         }
 
-        private void SendToClient(TcpClient client, string message)
+        private void SendToClient(TcpClient client, byte[] message)
         {
             try
             {
                 var tcpStream = client.GetStream();
-                System.Threading.Tasks.Task<byte[]> data = EncryptionToServer.EncryptMessage(message, EncryptionKey);
-                tcpStream.Write(data.Result, 0, data.Result.Length);
-
+                tcpStream.Write(message, 0, message.Length);
             }
             catch (Exception ex)
             {
@@ -87,6 +85,6 @@ namespace Server
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
-        
+
     }
 }

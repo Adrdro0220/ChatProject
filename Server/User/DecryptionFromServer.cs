@@ -40,9 +40,9 @@ namespace User
             string simpleText = String.Empty;
             using (Aes aesAlg = Aes.Create())
             {
-
                 aesAlg.Key = Encoding.UTF8.GetBytes(key);
                 aesAlg.IV = new byte[16]; // Ensure this matches the IV used for encryption.
+                aesAlg.Padding = PaddingMode.None; // Ustaw dopełnienie na None
 
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
@@ -53,6 +53,7 @@ namespace User
                         using (StreamReader srDecrypt = new StreamReader(csDecrypt))
                         {
                             simpleText = srDecrypt.ReadToEnd();
+                            srDecrypt.Close();
                         }
                     }
                 }

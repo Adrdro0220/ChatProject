@@ -27,12 +27,13 @@ namespace User
         {
             while (true)
             {
-                byte[] data = new byte[256];
-                int bytesRead = await _stream.ReadAsync(data, 0, data.Length);
+                byte[] buffer = new byte[256];
+                int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
 
                 if (bytesRead > 0)
                 {
-                   
+                    byte[] data = new byte[bytesRead];
+                    Array.Copy(buffer, data, bytesRead);
                     string decryptedStream = await DecryptionFromServer.DecryptMessage(data, EncryptionKey);
                     Console.WriteLine($"Received: {decryptedStream}");
                 }
