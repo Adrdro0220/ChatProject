@@ -1,6 +1,7 @@
 ﻿// TcpServer.cs
 using ConsoleApp1;
 using Org.BouncyCastle.Bcpg;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using User;
 
 namespace Server
 {
@@ -55,17 +57,11 @@ namespace Server
             {
                 while (true)
                 {
-                 
-
-                    byte[] buffer = new byte[256];
+                    byte[] buffer = new byte[1024];
                     int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-
                     if (bytesRead > 0)
                     {
-                        byte[] data = new byte[bytesRead];
-                        Array.Copy(buffer, data, bytesRead);
-                        string decryptedStream = await EncryptionToServer.DecryptMessage(data);
-                        Console.WriteLine($"Received: {decryptedStream}");
+                        PacketReader tmp = new PacketReader(buffer);
                     }
                 }
             }
@@ -77,24 +73,31 @@ namespace Server
             string message = Console.ReadLine();
             foreach (var connectedClient in _clients)
             {
-                byte[] tempMessage = await EncryptionToServer.EncryptMessage(message);
-                SendToClient(connectedClient, tempMessage);
+                SendToClient(connectedClient, message);
             }
         }
 
-        private async Task SendToClient(TcpClient client, byte[] message)
+        private async Task SendToClient(TcpClient client, string message)
         {
             try
             {
                 PacketWriter packet = new PacketWriter(message, "SentMessage");
                 await packet.AssemblePacket();
                 var tcpStream = client.GetStream();
-                await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PayloadLenght); 
+                await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
+               
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex.Message}");
             }
+        }
+        public static string ByteArrayToString(byte[] ba)
+        {
+            StringBuilder hex = new StringBuilder(ba.Length * 2);
+            foreach (byte b in ba)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
         }
     }
 }

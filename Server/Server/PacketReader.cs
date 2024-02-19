@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using User;
 
 namespace ConsoleApp1
 {
@@ -11,34 +12,35 @@ namespace ConsoleApp1
     {
         public byte[] PacketData { get; set; }
         public int Id { get; set; }
+        public byte[] IdBytes { get; set; }
+        public byte[] PayloadLenghtBytes { get; set; }
         public int PayloadLength { get; set; }
         public byte[] binJsonEncrypted { get; set; }
         public string Json { get; set; }
         public object Object { get; set; }
-
+        public int Offset { get; set; } = 0;
+        public byte[] PayloadByte { get; set; }
+        public byte[] DirectionInput { get; set; }
+        public byte[] Direction { get { return BitConverter.GetBytes(0); } }
         public PacketReader(byte[] packetData)
         {
             this.PacketData = packetData;
-            ParsePacket();
-        }
 
-        private void ParsePacket()
-        {
-            // Extract Packet ID
-            Id = BitConverter.ToInt32(PacketData, 0);
+            IdBytes = ByteReader.GetSpecificBYtes(packetData, Offset, 4).Result;
+            Id = ByteReader.GetId(IdBytes).Result;
+            Offset += 4;
+            PayloadLenghtBytes = ByteReader.GetSpecificBYtes(packetData, Offset, 4).Result;
+            PayloadLength = ByteReader.GetPayloadLength(PayloadLenghtBytes).Result;
 
-            // Extract payload length
-            PayloadLength = BitConverter.ToInt32(PacketData, 1);
+            Offset += 4;
 
-            // Extract encrypted JSON
-            binJsonEncrypted = new byte[PayloadLength];
-            Buffer.BlockCopy(PacketData, 6, binJsonEncrypted, 0, PayloadLength);
+            PayloadByte = ByteReader.GetSpecificBYtes(packetData, Offset, PayloadLength).Result;
 
-            // Decrypt JSON
-            Json = EncryptionToServer.DecryptMessage(binJsonEncrypted).Result;
+            Json = EncryptionToServer.DecryptMessage(PayloadByte).Result;
+            Console.WriteLine(Json);
+            Object = JsonConvert.DeserializeObject<object>(Json);
 
-            // Deserialize object
-            Object = JsonConvert.DeserializeObject(Json);
+
         }
     }
 }

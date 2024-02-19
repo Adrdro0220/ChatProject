@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace User
@@ -27,17 +28,23 @@ namespace User
 
         public async Task SendMessageToServerAsync(string message)
         {
-            var encryptedData = DecryptionFromServer.EncryptMessage(message);
-            await _stream.WriteAsync(encryptedData.Result, 0, encryptedData.Result.Length);
+            PacketWriter packet = new PacketWriter(message, "SentMessage");
+            await packet.AssemblePacket();
+            var tcpStream = _client.GetStream();
+            await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
         }
 
         private async Task ReceiveMessagesAsync()
         {
             while (true)
             {
+                
                 byte[] buffer = new byte[1024];
-                _stream.ReadAsync(buffer, 0, buffer.Length);
-                PacketReader temp = new PacketReader(buffer);
+                int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
+                if (bytesRead > 0)
+                {
+                        PacketReader tmp = new PacketReader(buffer);
+                }
             }
         }
 
@@ -73,6 +80,8 @@ namespace User
                 Console.WriteLine("Successfully connected to server");              
                 return true;
             }
+
         }
+       
     }
 }

@@ -50,10 +50,11 @@ namespace ConsoleApp1
             // Id pakietu
             byte[] bufferId = BitConverter.GetBytes(Id);
             PacketReadyToSent = bufferId;
-            
+
 
             // Szyfrowanie ładunku
-            binJsonEncrypted = EncryptionToServer.EncryptMessage(Json).Result;
+            binJsonEncrypted = DecryptionFromServer.EncryptMessage(Json).Result;
+
             PayloadLenght = binJsonEncrypted.Length;
 
             // Długość ładunku pakietu
@@ -77,8 +78,8 @@ namespace ConsoleApp1
         }
 
 
- 
-        public async Task< byte[] > FillUnassignedWithZeros(byte[] originalArray, int newSize)
+
+        public async Task<byte[]> FillUnassignedWithZeros(byte[] originalArray, int newSize)
         {
             byte[] newArray = new byte[newSize];
             Buffer.BlockCopy(originalArray, 0, newArray, 0, Math.Min(originalArray.Length, newSize));
