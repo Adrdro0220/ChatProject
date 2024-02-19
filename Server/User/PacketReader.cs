@@ -12,39 +12,32 @@ namespace ConsoleApp1
     {
         public byte[] PacketData { get; set; }
         public int Id { get; set; }
-        public int PayloadLength { get; set; }
+        public byte[] IdBytes { get; set; }
+        public byte[] PayloadLenghtBytes { get; set; }
+        public int PayloadLength { get; set; }  
         public byte[] binJsonEncrypted { get; set; }
-        public string Json { get; set; }
+        public string Json { get; set; }    
         public object Object { get; set; }
+        public int Offset { get; set; } = 0;
+        public byte[] PayloadByte { get; set; }
 
-        public PacketReader(byte[] packetData , byte[]id ,int payloadLength)
+        public PacketReader(byte[] packetData )
         {
             this.PacketData = packetData;
 
-            ParsePacket();
+            IdBytes = ByteReader.GetSpecificBYtes(packetData, Offset, 1).Result;
+            Id = ByteReader.GetId(IdBytes).Result;
+            Offset += 1;
 
-            byte[] idArray = new byte[1];
-
-            Buffer.BlockCopy(packetData, 1, idArray, 0, idArray.Length);
-
-            Id = id[0];
-
-            PayloadLength = payloadLength;
-        }
-
-        
-        private void ParsePacket()
-        {
-            // Extract encrypted JSON
-            binJsonEncrypted = new byte[PayloadLength];
-            Buffer.BlockCopy(PacketData, 5, binJsonEncrypted, 0, PayloadLength); // Zmiana indeksu na 5
-
-            // Decrypt JSON
-            Json = DecryptionFromServer.DecryptMessage(binJsonEncrypted).Result;
-
-            // Deserialize object
-            Object = JsonConvert.DeserializeObject(Json);
-        }
-
+            PayloadLenghtBytes = ByteReader.GetSpecificBYtes(packetData, Offset, 4).Result;
+            PayloadLength = ByteReader.GetPayloadLenght(PayloadLenghtBytes).Result;
+            Offset += 4;
+            Offset += 1;
+            PayloadByte = ByteReader.GetSpecificBYtes(packetData, Offset, PayloadLength).Result;
+            Json = DecryptionFromServer.DecryptMessage(PayloadByte).Result;
+            Object = JsonConvert.DeserializeObject<object>(Json);
+            Console.WriteLine(Object);
+           
+        }  
     }
 }

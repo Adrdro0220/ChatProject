@@ -50,17 +50,10 @@ namespace ConsoleApp1
             // Id pakietu
             byte[] bufferId = BitConverter.GetBytes(Id);
             PacketReadyToSent = bufferId;
-            await Console.Out.WriteLineAsync($" PacketReadyToSent {PacketReadyToSent}");
 
             // Szyfrowanie ładunku
             binJsonEncrypted = EncryptionToServer.EncryptMessage(Json).Result;
            
-
-            foreach (var item in binJsonEncrypted)
-            {
-                await Console.Out.WriteLineAsync((char)item);
-            }
-
             PayloadLenght = binJsonEncrypted.Length;
 
             // Długość ładunku pakietu

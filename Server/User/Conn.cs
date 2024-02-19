@@ -35,20 +35,9 @@ namespace User
         {
             while (true)
             {
-                byte[] id = new byte[1];
-                await _stream.ReadAsync(id, 0, id.Length);
-                byte[] lenght = new byte[4];
-                await _stream.ReadAsync(lenght, 0, lenght.Length);
-                foreach (var item in lenght)
-                {
-                    await Console.Out.WriteLineAsync((char)item);
-                }
-                int len = BitConverter.ToInt32(lenght, 0);
-                byte[] data = new byte[len];
-                await _stream.ReadAsync(data, 0, len);
-                PacketReader temp = new PacketReader(data, id, len);
-
-
+                byte[] buffer = new byte[1024];
+                _stream.ReadAsync(buffer, 0, buffer.Length);
+                PacketReader temp = new PacketReader(buffer);
             }
         }
 
