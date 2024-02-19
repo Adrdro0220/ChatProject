@@ -1,6 +1,9 @@
-﻿using System;
+﻿using ConsoleApp1;
+using Server;
+using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +14,6 @@ namespace User
     {
         static public string Username { get; set; }
         static public string Password { get; set; }
-
 
         public string EncryptionKey { get { return "KluczZabezpiecza"; } }
         public TcpClient _client { get; set; }
@@ -25,7 +27,7 @@ namespace User
 
         public async Task SendMessageToServerAsync(string message)
         {
-            var encryptedData = DecryptionFromServer.EncryptMessage(message,EncryptionKey);
+            var encryptedData = DecryptionFromServer.EncryptMessage(message);
             await _stream.WriteAsync(encryptedData.Result, 0, encryptedData.Result.Length);
         }
 
@@ -33,16 +35,20 @@ namespace User
         {
             while (true)
             {
-                byte[] buffer = new byte[256];
-                int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-
-                if (bytesRead > 0)
+                byte[] id = new byte[1];
+                await _stream.ReadAsync(id, 0, id.Length);
+                byte[] lenght = new byte[4];
+                await _stream.ReadAsync(lenght, 0, lenght.Length);
+                foreach (var item in lenght)
                 {
-                    byte[] data = new byte[bytesRead];
-                    Array.Copy(buffer, data, bytesRead);
-                    string decryptedStream = await DecryptionFromServer.DecryptMessage(data, EncryptionKey);
-                    Console.WriteLine($"Received: {decryptedStream}");
+                    await Console.Out.WriteLineAsync((char)item);
                 }
+                int len = BitConverter.ToInt32(lenght, 0);
+                byte[] data = new byte[len];
+                await _stream.ReadAsync(data, 0, len);
+                PacketReader temp = new PacketReader(data, id, len);
+
+
             }
         }
 

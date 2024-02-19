@@ -1,20 +1,22 @@
-﻿using System;
+﻿// EncryptionToServer.cs
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace User
+namespace Server
 {
-    internal class DecryptionFromServer
+    public class DecryptionFromServer
     {
-        public async static Task<byte[]> EncryptMessage(string message, string key)
+        public static string EncryptionKey { get { return "KluczZabezpiecza"; } }
+        public async static Task<byte[]> EncryptMessage(string message)
         {
             byte[] cipheredText;
             String simpletext = string.Empty;
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Encoding.UTF8.GetBytes(key);
+                aesAlg.Key = Encoding.UTF8.GetBytes(EncryptionKey);
                 aesAlg.IV = new byte[16]; // Poprawiono długość IV na 16 bajtów (128 bitów)
 
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
@@ -35,12 +37,12 @@ namespace User
             return cipheredText;
         }
 
-        public async static Task<string> DecryptMessage(byte[] cipheredText, string key)
+        public async static Task<string> DecryptMessage(byte[] cipheredText)
         {
             string simpleText = String.Empty;
             using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Encoding.UTF8.GetBytes(key);
+                aesAlg.Key = Encoding.UTF8.GetBytes(EncryptionKey);
                 aesAlg.IV = new byte[16]; // Ensure this matches the IV used for encryption.
                 aesAlg.Padding = PaddingMode.None; // Ustaw dopełnienie na None
 
@@ -60,5 +62,7 @@ namespace User
             }
             return simpleText;
         }
+
+
     }
 }

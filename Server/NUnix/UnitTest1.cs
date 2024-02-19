@@ -23,9 +23,9 @@ namespace Server
             string a = "KluczZabezpiecza";
             string b = "wiadomosc";
 
-            System.Threading.Tasks.Task<byte[]> encryptedMessage = EncryptionToServer.EncryptMessage(b, a);
+            System.Threading.Tasks.Task<byte[]> encryptedMessage = EncryptionToServer.EncryptMessage(b);
 
-            string decryptedMessage = EncryptionToServer.DecryptMessage(encryptedMessage.Result, a).Result;
+            string decryptedMessage = EncryptionToServer.DecryptMessage(encryptedMessage.Result).Result;
             Console.WriteLine(decryptedMessage);
             if (decryptedMessage == b) { Assert.Pass(); }
             else

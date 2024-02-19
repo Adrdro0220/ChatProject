@@ -1,4 +1,6 @@
 ﻿// TcpServer.cs
+using ConsoleApp1;
+using Org.BouncyCastle.Bcpg;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,10 +13,13 @@ namespace Server
 {
     internal class TcpServer
     {
-        public string EncryptionKey { get { return "KluczZabezpiecza"; } }
         public NetworkStream _stream { get; set; }
         public TcpListener _listener { get; set; }
-        public List<TcpClient> _clients { get; set; }
+        static public int maxCliets { get; set; }
+
+        static public List<TcpClient> _clients { get; set; }
+
+        private int id = 0;
 
         public TcpServer()
         {
@@ -32,8 +37,10 @@ namespace Server
             while (true)
             {
                 TcpClient client = await _listener.AcceptTcpClientAsync();
+                //++id;
+                //Client _client = new Client(id);
                 _clients.Add(client);
-                Console.WriteLine("Klient został połączony");
+                Console.WriteLine("Klient został połączonys");
 
                 // Start asynchronous data reading for the new client
                 Task.Run(() => HandleClientAsync(client));
@@ -42,13 +49,14 @@ namespace Server
 
         private async Task HandleClientAsync(TcpClient client)
         {
-            string uniqueId = Guid.NewGuid().ToString();
+            
             _stream = client.GetStream();
             if (_stream != null)
             {
                 while (true)
                 {
-                    await Console.Out.WriteLineAsync($"Klient o id {uniqueId} połączył się ");
+                 
+
                     byte[] buffer = new byte[256];
                     int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
 
@@ -56,7 +64,7 @@ namespace Server
                     {
                         byte[] data = new byte[bytesRead];
                         Array.Copy(buffer, data, bytesRead);
-                        string decryptedStream = await EncryptionToServer.DecryptMessage(data, EncryptionKey);
+                        string decryptedStream = await EncryptionToServer.DecryptMessage(data);
                         Console.WriteLine($"Received: {decryptedStream}");
                     }
                 }
@@ -69,21 +77,22 @@ namespace Server
             string message = Console.ReadLine();
             foreach (var connectedClient in _clients)
             {
-                byte[] tempMessage = await EncryptionToServer.EncryptMessage(message, EncryptionKey);
+                byte[] tempMessage = await EncryptionToServer.EncryptMessage(message);
                 SendToClient(connectedClient, tempMessage);
             }
         }
 
-        private void SendToClient(TcpClient client, byte[] message)
+        private async Task SendToClient(TcpClient client, byte[] message)
         {
             try
             {
+                PacketWriter packet = new PacketWriter(message, "SentMessage");
+                await packet.AssemblePacket();
                 var tcpStream = client.GetStream();
-                tcpStream.Write(message, 0, message.Length);
+                await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PayloadLenght); 
             }
             catch (Exception ex)
             {
-                // Handle exceptions (e.g., client disconnects)
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }

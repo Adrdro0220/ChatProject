@@ -26,15 +26,10 @@ namespace Server
             while (!stoppingToken.IsCancellationRequested)
             {
                 Console.WriteLine("klient został połączony");
-                _logger.LogInformation($"Worker running at {DateTimeOffset.Now}");  
+                _logger.LogInformation($"Worker running at {DateTimeOffset.Now}");
                 await Task.Delay(1000,stoppingToken);
             }
             throw new NotImplementedException();
         }
-
-        
-
-
-
     }
 }
