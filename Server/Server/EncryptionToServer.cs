@@ -9,7 +9,7 @@ namespace Server
 {
     public class EncryptionToServer
     {
-        public static string EncryptionKey { get { return "KluczZabezpiecza"; } }
+        public static string EncryptionKey { get { return "KluczZabezpiecza"; } } //TODO change this
         public async static Task<byte[]> EncryptMessage(string message)
         {
             byte[] cipheredText;

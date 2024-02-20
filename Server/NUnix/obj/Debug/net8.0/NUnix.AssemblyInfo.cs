@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NUnix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2f92d7a7841738a9849b5f5350d8c1cf41a7135")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd78ba371aa8974f4712c2ccf1718e88909c6457")]
 [assembly: System.Reflection.AssemblyProductAttribute("NUnix")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NUnix")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
