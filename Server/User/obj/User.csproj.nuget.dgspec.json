@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ChatProj\\Server\\User\\User.csproj": {}
+    "C:\\Users\\pawel\\source\\repos\\ChatProject\\Server\\User\\User.csproj": {}
   },
   "projects": {
-    "D:\\ChatProj\\Server\\User\\User.csproj": {
+    "C:\\Users\\pawel\\source\\repos\\ChatProject\\Server\\User\\User.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ChatProj\\Server\\User\\User.csproj",
+        "projectUniqueName": "C:\\Users\\pawel\\source\\repos\\ChatProject\\Server\\User\\User.csproj",
         "projectName": "User",
-        "projectPath": "D:\\ChatProj\\Server\\User\\User.csproj",
-        "packagesPath": "C:\\Users\\powst\\.nuget\\packages\\",
-        "outputPath": "D:\\ChatProj\\Server\\User\\obj\\",
+        "projectPath": "C:\\Users\\pawel\\source\\repos\\ChatProject\\Server\\User\\User.csproj",
+        "packagesPath": "C:\\Users\\pawel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pawel\\source\\repos\\ChatProject\\Server\\User\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "F:\\Microsoft Visual Studio Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\powst\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pawel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

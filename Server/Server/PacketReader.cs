@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Org.BouncyCastle.Bcpg;
 using Server;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace ConsoleApp1
 
             Json = EncryptionToServer.DecryptMessage(PayloadByte).Result;
 
-            Json = PacketMethods.RemoveCharacterPairs(Json, "\a");
+            //Json = PacketMethods.RemoveCharacterPairs(Json, "\a");
             switch (Id)
             {
                 case 0:

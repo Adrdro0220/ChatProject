@@ -62,10 +62,12 @@ namespace Server
 
         public static void GetUsernameAndPassword(string json, out string username, out string password)
         {
-
             try
             {
-                UserTmp credentials = JsonConvert.DeserializeObject<UserTmp>(json);
+                json = json.Replace("\\", "");
+                json = json.Substring(1, json.Length - 2);
+                Console.WriteLine($"got json {json}");
+                dynamic credentials = JsonConvert.DeserializeObject<UserTmp>(json);
 
                 if (credentials != null)
                 {

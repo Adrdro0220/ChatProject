@@ -29,6 +29,7 @@ namespace User
             user.Username = Username;
             user.Password = Password;
             string Json = JsonConvert.SerializeObject(user);
+
             dynamic dJson = JsonConvert.DeserializeObject(Json);
             Console.WriteLine(dJson);
 

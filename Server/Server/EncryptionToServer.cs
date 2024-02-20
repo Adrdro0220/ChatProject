@@ -44,7 +44,6 @@ namespace Server
             {
                 aesAlg.Key = Encoding.UTF8.GetBytes(EncryptionKey);
                 aesAlg.IV = new byte[16]; // Ensure this matches the IV used for encryption.
-                aesAlg.Padding = PaddingMode.None; // Ustaw dopełnienie na None
 
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
@@ -54,7 +53,7 @@ namespace Server
                     {
                         using (StreamReader srDecrypt = new StreamReader(csDecrypt))
                         {
-                            simpleText = srDecrypt.ReadToEnd();
+                            simpleText = srDecrypt.ReadLine();
                             srDecrypt.Close();
                         }
                     }
