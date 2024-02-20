@@ -37,10 +37,19 @@ namespace ConsoleApp1
             PayloadByte = ByteReader.GetSpecificBYtes(packetData, Offset, PayloadLength).Result;
             
             Json = DecryptionFromServer.DecryptMessage(PayloadByte).Result;
-            Console.WriteLine(Json);
+
             Object = JsonConvert.DeserializeObject<object>(Json);
-            
-           
+            switch (Id)
+            {
+                case 0:
+                    Console.WriteLine(Json);
+                    break;
+
+                case 1:
+                    Console.WriteLine(Object);
+                    Conn.Acces = true;
+                    break;
+            }
         }  
     }
 }

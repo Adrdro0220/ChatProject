@@ -31,7 +31,8 @@ namespace ConsoleApp1
 
         static public Dictionary<int, string> Dict = new Dictionary<int, string>()
         {
-            {  12,"SentMessage" }
+            {  0,"SentMessage" },
+            {   1 ,"LoginRequest" }
         };
 
         public byte[] binJsonEncrypted { get; set; }

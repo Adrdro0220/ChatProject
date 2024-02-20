@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1;
+using Newtonsoft.Json;
 using Server;
 using System;
 using System.Data;
@@ -15,14 +16,28 @@ namespace User
     {
         static public string Username { get; set; }
         static public string Password { get; set; }
-
+        public static bool Acces = false;
         public string EncryptionKey { get { return "KluczZabezpiecza"; } }
-        public TcpClient _client { get; set; }
-        public NetworkStream _stream { get; set; }
+        public static TcpClient _client { get; set; }
+        public static NetworkStream _stream { get; set; }
         public Conn()
         {
             _client = new TcpClient("127.0.0.1", 13000);
             _stream = _client.GetStream();
+            
+            UserTmp user = new UserTmp();
+            user.Username = Username;
+            user.Password = Password;
+            string Json = JsonConvert.SerializeObject(user);
+            dynamic dJson = JsonConvert.DeserializeObject(Json);
+            Console.WriteLine(dJson);
+
+
+            PacketWriter packet = new PacketWriter(Json, "LoginRequest");
+            packet.AssemblePacket();
+            _stream.Write(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
+            
+            
             Task.Run(async () => await ReceiveMessagesAsync()); // Uruchomienie asynchronicznej metody do odbierania wiadomości
         }
 
@@ -47,41 +62,5 @@ namespace User
                 }
             }
         }
-
-        public static bool ServerAcces() 
-        {
-            SqlConnection ConnectionToDB = new SqlConnection(@"Data Source = ADI\SQLEXPRESS;Initial Catalog=RegisterToChatProject;Integrated Security=True");
-            DataTable dtable = new DataTable();
-            try
-            {
-                ConnectionToDB.Open();
-                string query = "SELECT id FROM Users WHERE UserN =  '"+Username+"' and PassW = '"+Password+"'";
-                SqlDataAdapter SDA = new SqlDataAdapter(query, ConnectionToDB);
-                SDA.SelectCommand.ExecuteNonQuery();
-                SDA.Fill(dtable);
-
-            }
-             
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message );
-            }
-            finally
-            {
-                ConnectionToDB.Close();
-            }
-            if (dtable.Rows.Count == 0)
-            {
-                Console.WriteLine("Connection to server failed");
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("Successfully connected to server");              
-                return true;
-            }
-
-        }
-       
     }
 }

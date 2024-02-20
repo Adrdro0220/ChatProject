@@ -19,7 +19,7 @@ namespace Server
         public TcpListener _listener { get; set; }
         static public int maxCliets { get; set; }
 
-        static public List<TcpClient> _clients { get; set; }
+       public static List<TcpClient> _clients { get; set; }
 
         private int id = 0;
 
@@ -61,7 +61,7 @@ namespace Server
                     int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
                     if (bytesRead > 0)
                     {
-                        PacketReader tmp = new PacketReader(buffer);
+                        PacketReader tmp = new PacketReader(buffer, client);
                     }
                 }
             }

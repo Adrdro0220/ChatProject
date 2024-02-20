@@ -12,10 +12,16 @@ class Program
         Conn.Username = Console.ReadLine();
         await Console.Out.WriteLineAsync("Password...");
         Conn.Password = Console.ReadLine();
-        if (Conn.ServerAcces())
-        {
-            Conn conn = new Conn();
 
+        Conn conn = new Conn();
+        while (!Conn.Acces)
+        {
+            Thread.Sleep(1000);
+        }
+        if (Conn.Acces)
+        {
+           
+            
             while (true)
             {
                 await conn.SendMessageToServerAsync(Console.ReadLine());

@@ -13,4 +13,7 @@
     <SourceRoot Include="C:\Users\powst\.nuget\packages\" />
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_VisualStudio_SlnGen Condition=" '$(PkgMicrosoft_VisualStudio_SlnGen)' == '' ">C:\Users\powst\.nuget\packages\microsoft.visualstudio.slngen\11.1.0</PkgMicrosoft_VisualStudio_SlnGen>
+  </PropertyGroup>
 </Project>
