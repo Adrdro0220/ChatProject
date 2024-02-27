@@ -24,11 +24,12 @@ namespace User
         {
             _client = new TcpClient("127.0.0.1", 13000);
             _stream = _client.GetStream();
-            
+
             UserTmp user = new UserTmp();
             user.Username = Username;
             user.Password = Password;
             string Json = JsonConvert.SerializeObject(user);
+
             dynamic dJson = JsonConvert.DeserializeObject(Json);
             Console.WriteLine(dJson);
 
@@ -36,8 +37,8 @@ namespace User
             PacketWriter packet = new PacketWriter(Json, "LoginRequest");
             packet.AssemblePacket();
             _stream.Write(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
-            
-            
+
+
             Task.Run(async () => await ReceiveMessagesAsync()); // Uruchomienie asynchronicznej metody do odbierania wiadomości
         }
 
@@ -53,12 +54,12 @@ namespace User
         {
             while (true)
             {
-                
+
                 byte[] buffer = new byte[1024];
                 int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
                 if (bytesRead > 0)
                 {
-                        PacketReader tmp = new PacketReader(buffer);
+                    PacketReader tmp = new PacketReader(buffer);
                 }
             }
         }

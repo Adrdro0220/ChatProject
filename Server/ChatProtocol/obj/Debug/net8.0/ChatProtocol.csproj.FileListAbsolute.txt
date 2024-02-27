@@ -1,0 +1,12 @@
+D:\ChatProj\Server\ChatProtocol\bin\Debug\net8.0\ChatProtocol.deps.json
+D:\ChatProj\Server\ChatProtocol\bin\Debug\net8.0\ChatProtocol.dll
+D:\ChatProj\Server\ChatProtocol\bin\Debug\net8.0\ChatProtocol.pdb
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.GeneratedMSBuildEditorConfig.editorconfig
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.AssemblyInfoInputs.cache
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.AssemblyInfo.cs
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.csproj.CoreCompileInputs.cache
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.sourcelink.json
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.dll
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\refint\ChatProtocol.dll
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.pdb
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ref\ChatProtocol.dll

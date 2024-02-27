@@ -15,6 +15,9 @@ namespace ConsoleApp1
         {
             this.Object = obj;
 
+
+
+
             Json = JsonConvert.SerializeObject(Object);
 
             binJsonEncrypted = Encoding.UTF8.GetBytes(Json);

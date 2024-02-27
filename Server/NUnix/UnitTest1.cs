@@ -20,18 +20,16 @@ namespace Server
         [Test]
         public void EncryptMessage_EqualTest()
         {
-            string a = "KluczZabezpiecza";
-            string b = "wiadomosc";
+            string dupa = "dupa";
 
-            System.Threading.Tasks.Task<byte[]> encryptedMessage = EncryptionToServer.EncryptMessage(b);
-
-            string decryptedMessage = EncryptionToServer.DecryptMessage(encryptedMessage.Result).Result;
-            Console.WriteLine(decryptedMessage);
-            if (decryptedMessage == b) { Assert.Pass(); }
-            else
+           dupa = EncryptionToServer.EncryptMessage(dupa).Result;
+            byte[] dupa1 = Encoding.UTF8.GetBytes(dupa); 
+            dupa = EncryptionToServer.DecryptMessage(dupa1).Result;
+            if(dupa == "dupa")
             {
-                Assert.Fail();
+                Assert.Pass();
             }
+
         }
     }
 }

@@ -3,6 +3,7 @@ using Server;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using User;
 
@@ -37,12 +38,13 @@ namespace ConsoleApp1
             PayloadByte = ByteReader.GetSpecificBYtes(packetData, Offset, PayloadLength).Result;
             
             Json = DecryptionFromServer.DecryptMessage(PayloadByte).Result;
-
+            //Json = Json.Replace("\b", "");
+            
             Object = JsonConvert.DeserializeObject<object>(Json);
             switch (Id)
             {
                 case 0:
-                    Console.WriteLine(Json);
+                    Console.WriteLine(Object);
                     break;
 
                 case 1:
@@ -50,6 +52,6 @@ namespace ConsoleApp1
                     Conn.Acces = true;
                     break;
             }
-        }  
+        }
     }
 }

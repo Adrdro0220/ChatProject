@@ -9,6 +9,7 @@
       "Server/1.0.0": {
         "dependencies": {
           "BouncyCastle": "1.8.9",
+          "ChatProtocol": "1.0.0",
           "DotNetty.Buffers": "0.7.5",
           "DotNetty.Codecs": "0.7.5",
           "DotNetty.Common": "0.7.5",
@@ -773,8 +774,14 @@
           }
         }
       },
+      "ChatProtocol/1.0.0": {
+        "runtime": {
+          "ChatProtocol.dll": {}
+        }
+      },
       "User/1.0.0": {
         "dependencies": {
+          "ChatProtocol": "1.0.0",
           "Newtonsoft.Json": "13.0.3",
           "System.Data.SqlClient": "4.8.6"
         },
@@ -1398,6 +1405,11 @@
       "sha512": "sha512-fXrqmKkzBtXeJiHEsZOPEWkonHweiwk/l0Hqhz4yMIZPh57kZy03Xbj2/e8HV1QIkTw7yeBe9bbphuE3YiI4vQ==",
       "path": "yamldotnet/15.1.0",
       "hashPath": "yamldotnet.15.1.0.nupkg.sha512"
+    },
+    "ChatProtocol/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "User/1.0.0": {
       "type": "project",

@@ -1,4 +1,5 @@
-﻿using k8s.KubeConfigModels;
+﻿using ChatProtocol;
+using k8s.KubeConfigModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,16 +16,16 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Server
 {
-     
+
     internal class PacketMethods
     {
-         
+
         public static async Task<string> ReturnDbQuerryAnswer(string Json)
         {
             string Username;
             string Password;
 
-            GetUsernameAndPassword(Json , out Username, out Password);
+            GetUsernameAndPassword(Json, out Username, out Password);
 
             SqlConnection ConnectionToDB = new SqlConnection(@"Data Source = ADI\SQLEXPRESS;Initial Catalog=RegisterToChatProject;Integrated Security=True");
             DataTable dtable = new DataTable();
@@ -42,19 +43,21 @@ namespace Server
             {
                 Console.WriteLine(ex.Message);
             }
-            finally 
+
+            finally
             {
                 ConnectionToDB.Close();
             }
+
             if (dtable.Rows.Count == 0)
             {
-                Console.WriteLine("Connection to server failed");
+                Console.WriteLine("Connection to DB failed");
                 return "Reject";
             }
             else
             {
-                
-                Console.WriteLine("Successfully connected to server");
+
+                Console.WriteLine("Successfully connected to DB");
                 return "Accept";
             }
         }
@@ -62,10 +65,12 @@ namespace Server
 
         public static void GetUsernameAndPassword(string json, out string username, out string password)
         {
-
             try
             {
-                UserTmp credentials = JsonConvert.DeserializeObject<UserTmp>(json);
+                json = json.Replace("\\", "");
+                json = json.Substring(1, json.Length - 2);
+                Console.WriteLine($"got json {json}");
+                dynamic credentials = JsonConvert.DeserializeObject<Class1.Message>(json);
 
                 if (credentials != null)
                 {
@@ -89,14 +94,9 @@ namespace Server
         }
 
 
-        public static async Task<string>DeleteFirstAndLastCharFromString(string json)
+        public static async Task<string> DeleteFirstAndLastCharFromString(string json)
         {
-            await Console.Out.WriteLineAsync(json[0]);
-            await Console.Out.WriteLineAsync(json[json.Length-1]);
-            string modifiedString = json.Substring(1, json.Length -2);
-            await Console.Out.WriteLineAsync(json[0]);
-            await Console.Out.WriteLineAsync(json[json.Length-1]);
-
+            string modifiedString = json.Substring(1, json.Length - 2);
             Console.WriteLine(modifiedString);
             return modifiedString;
         }
@@ -105,5 +105,5 @@ namespace Server
             return input.Replace(pairToRemove, string.Empty);
         }
     }
-    
+
 }

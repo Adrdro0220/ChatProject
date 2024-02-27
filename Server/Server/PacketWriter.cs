@@ -1,8 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using ChatProtocol;
+using k8s;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Bcpg;
 using Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,82 +15,73 @@ namespace ConsoleApp1
     class PacketWriter
     {
 
-        public PacketWriter(object obj, string idName)
+        public byte[] PacketReadyToSent { get; set; }
+
+        public PacketWriter()
         {
-            this.Object = obj;
-
-            Json = JsonConvert.SerializeObject(Object);
-
-            binJsonEncrypted = Encoding.UTF8.GetBytes(Json);
-
-            foreach (var item in Dict)
-            {
-                if (item.Value == idName)
-                {
-                    Id = item.Key;
-                }
-            }
         }
-
 
         static public Dictionary<int, string> Dict = new Dictionary<int, string>()
         {
-            {  12,"SentMessage" }
+            {  12,"SentMessage" },
+            {   1 ,"LoginRequest" }
         };
 
-        public byte[] binJsonEncrypted { get; set; }
-        public string Json { get; set; }
-        public int Id { get; set; }
-        public int PayloadLenght { get; set; }
-        public object Object { get; set; }
-        public byte[] Direction { get { return BitConverter.GetBytes(1); } }
-
-        public byte[] PacketReadyToSent { get; set; }
-
-
-
-        public async Task AssemblePacket()
+        public void WritePacket(IPacket packet)
         {
-            // Id pakietu
-            byte[] bufferId = BitConverter.GetBytes(Id);
-            PacketReadyToSent = bufferId;
-            
+            if (packet is PacketContainer)
+            {
+                
+                var packetContainer = (PacketContainer)packet;
+                // Id pakietu
+                byte[] bufferId = BitConverter.GetBytes(packetContainer.PacketId());
+                PacketReadyToSent = bufferId;
 
-            // Szyfrowanie ładunku
-            binJsonEncrypted = EncryptionToServer.EncryptMessage(Json).Result;
-            PayloadLenght = binJsonEncrypted.Length;
+                // Długość ładunku pakietu
+                byte[] bufferLength = BitConverter.GetBytes(packetContainer.PayloadLenght); // Zmienione, aby prawidłowo obsłużyć długość
+
+                // Składanie pakiet
+                PacketReadyToSent =  AppendByteArrays(PacketReadyToSent, bufferLength);
+                PacketReadyToSent =  AppendByteArrays(PacketReadyToSent, packetContainer.Payload);
+                return ;
+            }
+            var rawPacket1  = ToPacketContainer(packet);
+            
+            // Id pakietu
+            byte[] bufferId1 = BitConverter.GetBytes(rawPacket1.PacketId());
+            PacketReadyToSent = bufferId1;
 
             // Długość ładunku pakietu
-            byte[] bufferLength = BitConverter.GetBytes(PayloadLenght); // Zmienione, aby prawidłowo obsłużyć długość
+            byte[] bufferLength1 = BitConverter.GetBytes(rawPacket1.PayloadLenght);
 
-            // Składanie pakietu
-            PacketReadyToSent = await AppendByteArrays(PacketReadyToSent, bufferLength);
-            PacketReadyToSent = await AppendByteArrays(PacketReadyToSent, binJsonEncrypted);
-
+            // Składanie pakiet
+            PacketReadyToSent = AppendByteArrays(PacketReadyToSent, bufferLength1);
+            PacketReadyToSent = AppendByteArrays(PacketReadyToSent, rawPacket1.Payload);
+            return;
         }
 
+        public async Task Flush(NetworkStream networkStream)
+        {
+            await networkStream.WriteAsync(PacketReadyToSent);
+            PacketReadyToSent = new byte[0];
+        }
 
+        private PacketContainer ToPacketContainer(IPacket packet)
+        {
+            PacketContainer packetContainer = new PacketContainer();
+            packetContainer.Id = packet.PacketId();
+            packetContainer.Payload = EncryptionToServer.EncryptMessage(packet.Serialize()).Result;
+            packetContainer.PayloadLenght = packetContainer.Payload.Length;
 
+            return packetContainer;
+        }
 
-        public async Task<byte[]> AppendByteArrays(byte[] array1, byte[] array2)
+        private byte[] AppendByteArrays(byte[] array1, byte[] array2)
         {
             byte[] result = new byte[array1.Length + array2.Length];
             Buffer.BlockCopy(array1, 0, result, 0, array1.Length);
             Buffer.BlockCopy(array2, 0, result, array1.Length, array2.Length);
             return result;
         }
-
-
- 
-        public async Task< byte[] > FillUnassignedWithZeros(byte[] originalArray, int newSize)
-        {
-            byte[] newArray = new byte[newSize];
-            Buffer.BlockCopy(originalArray, 0, newArray, 0, Math.Min(originalArray.Length, newSize));
-            return newArray;
-        }
-
-
-
-
     }
 }

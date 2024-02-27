@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ChatProtocol;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Bcpg;
 using Server;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,7 @@ namespace ConsoleApp1
         public byte[] DirectionInput { get; set; }
         public byte[] Direction { get { return BitConverter.GetBytes(0); } }
 
-        public PacketReader(byte[] packetData , TcpClient client)
+        public PacketReader(byte[] packetData, TcpClient client)
         {
             this.PacketData = packetData;
 
@@ -42,14 +44,20 @@ namespace ConsoleApp1
 
             Json = EncryptionToServer.DecryptMessage(PayloadByte).Result;
 
-            Json = PacketMethods.RemoveCharacterPairs(Json, "\a");
+
+
+            
             switch (Id)
             {
                 case 0:
-                  
+                    Object = JsonConvert.DeserializeObject<Class1.Message>(Json);
+
+                    Console.WriteLine(Object);
                     break;
-                
+
                 case 1:
+                    Object = JsonConvert.DeserializeObject<Class1.UserTmp>(Json);
+
                     Case1(client);
                     break;
             }
@@ -58,10 +66,17 @@ namespace ConsoleApp1
         {
             string json = PacketMethods.DeleteFirstAndLastCharFromString(Json).Result;
             string result = PacketMethods.ReturnDbQuerryAnswer(Json).Result;
-            PacketWriter packet = new PacketWriter(result, "SentMessage");
+            PacketWriter packet = new PacketWriter(result, "LoginRequest");
             await packet.AssemblePacket();
             var tcpStream = client.GetStream();
             await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
+            AddUserToDictionary(Json, client);
+        }
+
+        private async Task AddUserToDictionary(string json , TcpClient client)
+        {
+            PacketMethods.GetUsernameAndPassword(json , out string username,out string password);
+            TcpServer._clients.Add(username, client);
         }
     }
 }

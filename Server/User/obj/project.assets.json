@@ -159,6 +159,19 @@
             "rid": "win"
           }
         }
+      },
+      "ChatProtocol/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "compile": {
+          "bin/placeholder/ChatProtocol.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ChatProtocol.dll": {}
+        }
       }
     }
   },
@@ -505,10 +518,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "ChatProtocol/1.0.0": {
+      "type": "project",
+      "path": "../ChatProtocol/ChatProtocol.csproj",
+      "msbuildProject": "../ChatProtocol/ChatProtocol.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "ChatProtocol >= 1.0.0",
       "Newtonsoft.Json >= 13.0.3",
       "System.Data.SqlClient >= 4.8.6"
     ]
@@ -545,7 +564,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\ChatProj\\Server\\ChatProtocol\\ChatProtocol.csproj": {
+              "projectPath": "D:\\ChatProj\\Server\\ChatProtocol\\ChatProtocol.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

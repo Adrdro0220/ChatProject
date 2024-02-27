@@ -15,17 +15,18 @@ namespace Server
 {
     internal class TcpServer
     {
+        private int id;
         public NetworkStream _stream { get; set; }
         public TcpListener _listener { get; set; }
-        static public int maxCliets { get; set; }
-
-       public static List<TcpClient> _clients { get; set; }
-
-        private int id = 0;
-
+        public static Dictionary<string, TcpClient> _clients = new Dictionary<string, TcpClient>();
+        public int GetId()
+        {
+            ++id;
+            return id;
+        }
         public TcpServer()
         {
-            _clients = new List<TcpClient>();
+            
             StartServer();
         }
 
@@ -41,7 +42,6 @@ namespace Server
                 TcpClient client = await _listener.AcceptTcpClientAsync();
                 //++id;
                 //Client _client = new Client(id);
-                _clients.Add(client);
                 Console.WriteLine("Klient został połączonys");
 
                 // Start asynchronous data reading for the new client
@@ -51,7 +51,7 @@ namespace Server
 
         private async Task HandleClientAsync(TcpClient client)
         {
-            
+            Console.WriteLine(_clients);
             _stream = client.GetStream();
             if (_stream != null)
             {
@@ -71,9 +71,10 @@ namespace Server
         public async Task BroadcastToClients()
         {
             string message = Console.ReadLine();
-            foreach (var connectedClient in _clients)
+            foreach (KeyValuePair<string , TcpClient> connectedClient in _clients)
             {
-                SendToClient(connectedClient, message);
+                message = ($"User {connectedClient.Key.ToString()} Said  {message}");
+                SendToClient(connectedClient.Value, message);
             }
         }
 
@@ -81,11 +82,12 @@ namespace Server
         {
             try
             {
-                PacketWriter packet = new PacketWriter(message, "SentMessage");
-                await packet.AssemblePacket();
-                var tcpStream = client.GetStream();
-                await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
+                PacketWriter packet = new PacketWriter();
+
+                
                
+                var tcpStream = client.GetStream();
+                await packet.Flush(tcpStream);
             }
             catch (Exception ex)
             {

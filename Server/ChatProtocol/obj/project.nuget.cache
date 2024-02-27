@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "qZmriSGAvb6Y8wB3s5eycqbGo5g3Vj5JudSNevj/6Go2JZCJ9w96f7mA9ezTp5T7mypPrBHLzJulkX2IexwIRQ==",
+  "success": true,
+  "projectFilePath": "D:\\ChatProj\\Server\\ChatProtocol\\ChatProtocol.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\powst\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

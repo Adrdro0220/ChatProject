@@ -56,3 +56,5 @@ D:\ChatProj\Server\Server\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 D:\ChatProj\Server\Server\bin\Debug\net8.0\Prometheus.NetStandard.dll
 D:\ChatProj\Server\Server\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 D:\ChatProj\Server\Server\bin\Debug\net8.0\YamlDotNet.dll
+D:\ChatProj\Server\Server\bin\Debug\net8.0\ChatProtocol.dll
+D:\ChatProj\Server\Server\bin\Debug\net8.0\ChatProtocol.pdb

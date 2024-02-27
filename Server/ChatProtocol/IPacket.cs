@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace User
+namespace ChatProtocol
 {
-    public class UserTmp
+    public interface IPacket
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        int PacketId();
+        string Serialize();
     }
 }
