@@ -55,13 +55,14 @@ namespace Server
             _stream = client.GetStream();
             if (_stream != null)
             {
+                byte[] buffer = new byte[1024];
+                PacketReader packetReader = new PacketReader();
                 while (true)
                 {
-                    byte[] buffer = new byte[1024];
                     int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
                     if (bytesRead > 0)
                     {
-                        PacketReader tmp = new PacketReader(buffer, client);
+                        packetReader.ReadPacket(buffer);
                     }
                 }
             }

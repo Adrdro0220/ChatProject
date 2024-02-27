@@ -1,6 +1,7 @@
 ﻿using ChatProtocol;
 using k8s;
 using Newtonsoft.Json;
+using Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace ConsoleApp1
 
         static public Dictionary<int, string> Dict = new Dictionary<int, string>()
         {
-            {  12,"SentMessage" },
+            {  0,"SentMessage" },
             {   1 ,"LoginRequest" }
         };
 
@@ -70,7 +71,6 @@ namespace ConsoleApp1
             packetContainer.Id = packet.PacketId();
             packetContainer.Payload = EncryptionToServer.EncryptMessage(packet.Serialize()).Result;
             packetContainer.PayloadLenght = packetContainer.Payload.Length;
-
             return packetContainer;
         }
 

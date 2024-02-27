@@ -32,6 +32,10 @@ namespace ChatProtocol
             {
                 _id = value;
             }
+            get
+            {
+                return _id;
+            }
         }
 
         string IPacket.Serialize()
