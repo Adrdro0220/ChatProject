@@ -70,7 +70,11 @@ namespace Server
                 json = json.Replace("\\", "");
                 json = json.Substring(1, json.Length - 2);
                 Console.WriteLine($"got json {json}");
+<<<<<<< HEAD
                 dynamic credentials = JsonConvert.DeserializeObject<Class1.Message>(json);
+=======
+                dynamic credentials = JsonConvert.DeserializeObject<UserTmp>(json);
+>>>>>>> 3ff75ecd2dff62f53cf8ba41dc4ab8d81890bf36
 
                 if (credentials != null)
                 {

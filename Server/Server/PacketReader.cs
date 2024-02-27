@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿using ChatProtocol;
 using Newtonsoft.Json;
+=======
+﻿using Newtonsoft.Json;
+>>>>>>> 3ff75ecd2dff62f53cf8ba41dc4ab8d81890bf36
 using Org.BouncyCastle.Bcpg;
 using Server;
 using System;
@@ -44,9 +48,13 @@ namespace ConsoleApp1
 
             Json = EncryptionToServer.DecryptMessage(PayloadByte).Result;
 
+<<<<<<< HEAD
 
 
             
+=======
+            //Json = PacketMethods.RemoveCharacterPairs(Json, "\a");
+>>>>>>> 3ff75ecd2dff62f53cf8ba41dc4ab8d81890bf36
             switch (Id)
             {
                 case 0:
