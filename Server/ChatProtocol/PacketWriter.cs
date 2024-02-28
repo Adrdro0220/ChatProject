@@ -1,5 +1,5 @@
 ﻿using ChatProtocol;
-using k8s;
+
 using Newtonsoft.Json;
 using Server;
 using System;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class PacketWriter
+    public class PacketWriter
     {
 
         public byte[] PacketReadyToSent { get; set; }

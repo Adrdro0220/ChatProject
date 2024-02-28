@@ -1,4 +1,5 @@
-﻿using ConsoleApp1;
+﻿using ChatProtocol;
+using ConsoleApp1;
 using Newtonsoft.Json;
 using Server;
 using System;
@@ -16,38 +17,33 @@ namespace User
     {
         static public string Username { get; set; }
         static public string Password { get; set; }
-        public static bool Acces = false;
-        public string EncryptionKey { get { return "KluczZabezpiecza"; } }
+
+        public static bool Acces = true;
         public static TcpClient _client { get; set; }
         public static NetworkStream _stream { get; set; }
+        private Guid Guid = new Guid();
+        MessagePacket messagePacket = new MessagePacket();
+        LoginRequest loginRequest = new LoginRequest();
+        PacketWriter packetWriter = new PacketWriter();
+        PacketReader packetReader = new PacketReader();
         public Conn()
         {
             _client = new TcpClient("127.0.0.1", 13000);
             _stream = _client.GetStream();
-
-            UserTmp user = new UserTmp();
-            user.Username = Username;
-            user.Password = Password;
-            string Json = JsonConvert.SerializeObject(user);
-
-            dynamic dJson = JsonConvert.DeserializeObject(Json);
-            Console.WriteLine(dJson);
-
-
-            PacketWriter packet = new PacketWriter(Json, "LoginRequest");
-            packet.AssemblePacket();
-            _stream.Write(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
-
-
+            messagePacket.guid = this.Guid;
+            loginRequest.Username = Username;
+            loginRequest.Password = Password;
+            loginRequest.guid = Guid;
+            packetWriter.WritePacket(loginRequest);
+            packetWriter.Flush(_stream);
             Task.Run(async () => await ReceiveMessagesAsync()); // Uruchomienie asynchronicznej metody do odbierania wiadomości
         }
 
         public async Task SendMessageToServerAsync(string message)
         {
-            PacketWriter packet = new PacketWriter(message, "SentMessage");
-            await packet.AssemblePacket();
-            var tcpStream = _client.GetStream();
-            await tcpStream.WriteAsync(packet.PacketReadyToSent, 0, packet.PacketReadyToSent.Length);
+            messagePacket.message = message;
+            packetWriter.WritePacket(messagePacket);
+            packetWriter.Flush(_stream);
         }
 
         private async Task ReceiveMessagesAsync()
@@ -57,10 +53,7 @@ namespace User
 
                 byte[] buffer = new byte[1024];
                 int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
-                {
-                    PacketReader tmp = new PacketReader(buffer);
-                }
+                packetReader.ReadPacket(buffer);
             }
         }
     }

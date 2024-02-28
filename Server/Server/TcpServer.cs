@@ -1,4 +1,5 @@
 ﻿// TcpServer.cs
+using ChatProtocol;
 using ConsoleApp1;
 using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Utilities.Encoders;
@@ -17,16 +18,15 @@ namespace Server
     {
         private int id;
         public NetworkStream _stream { get; set; }
+        MessagePacket messagePacket = new MessagePacket();
+        PacketWriter packetWriter = new PacketWriter();
+
         public TcpListener _listener { get; set; }
-        public static Dictionary<string, TcpClient> _clients = new Dictionary<string, TcpClient>();
-        public int GetId()
-        {
-            ++id;
-            return id;
-        }
+        PacketReader packetReader = new PacketReader();
+        public static Dictionary<Guid, TcpClient> _clients = new Dictionary<Guid, TcpClient>();
+        
         public TcpServer()
         {
-            
             StartServer();
         }
 
@@ -40,8 +40,7 @@ namespace Server
             while (true)
             {
                 TcpClient client = await _listener.AcceptTcpClientAsync();
-                //++id;
-                //Client _client = new Client(id);
+                _clients.Add(Guid.NewGuid(), client);
                 Console.WriteLine("Klient został połączonys");
 
                 // Start asynchronous data reading for the new client
@@ -51,15 +50,14 @@ namespace Server
 
         private async Task HandleClientAsync(TcpClient client)
         {
-            Console.WriteLine(_clients);
             _stream = client.GetStream();
             if (_stream != null)
             {
                 byte[] buffer = new byte[1024];
-                PacketReader packetReader = new PacketReader();
-                while (true)
+                
+                while (client.Connected)
                 {
-                    int bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
+                    int bytesRead = await _stream.ReadAsync( buffer, 0, buffer.Length);
                     if (bytesRead > 0)
                     {
                         packetReader.ReadPacket(buffer);
@@ -72,23 +70,20 @@ namespace Server
         public async Task BroadcastToClients()
         {
             string message = Console.ReadLine();
-            foreach (KeyValuePair<string , TcpClient> connectedClient in _clients)
+            foreach (KeyValuePair<Guid, TcpClient> connectedClient in _clients)
             {
-                message = ($"User {connectedClient.Key.ToString()} Said  {message}");
                 SendToClient(connectedClient.Value, message);
             }
         }
+
 
         private async Task SendToClient(TcpClient client, string message)
         {
             try
             {
-                PacketWriter packet = new PacketWriter();
-
-                
-               
-                var tcpStream = client.GetStream();
-                await packet.Flush(tcpStream);
+                messagePacket.message = message;
+                packetWriter.WritePacket(messagePacket);
+                packetWriter.Flush(_stream);
             }
             catch (Exception ex)
             {

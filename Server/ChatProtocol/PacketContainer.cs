@@ -42,5 +42,6 @@ namespace ChatProtocol
         {
             throw new Exception("Cannot serialize packet");
         }
+
     }
 }

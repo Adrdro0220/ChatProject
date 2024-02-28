@@ -775,6 +775,10 @@
         }
       },
       "ChatProtocol/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "System.Data.SqlClient": "4.8.6"
+        },
         "runtime": {
           "ChatProtocol.dll": {}
         }

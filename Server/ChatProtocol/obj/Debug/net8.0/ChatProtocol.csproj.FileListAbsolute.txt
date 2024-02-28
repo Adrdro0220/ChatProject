@@ -10,3 +10,4 @@ D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.dll
 D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\refint\ChatProtocol.dll
 D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.pdb
 D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ref\ChatProtocol.dll
+D:\ChatProj\Server\ChatProtocol\obj\Debug\net8.0\ChatProtocol.csproj.AssemblyReference.cache
