@@ -6,8 +6,6 @@ namespace Server;
 
 internal class PacketMethods
 {
-    
-    public delegate void PacketHandler(IPacket packet, Handler handler);
     public static async Task<string> ReturnDbQuerryAnswer(LoginRequest obj)
     {
         GetUsernameAndPassword(obj, out var username, out var password);
@@ -24,6 +22,8 @@ internal class PacketMethods
         Console.WriteLine("Successfully connected to DB");
         return "Accept";
     }
+    
+    
 
     public static DataTable ExecuteQuery(string query, string username, string password)
     {
@@ -53,10 +53,44 @@ internal class PacketMethods
 
         return dtable;
     }
+    public static async Task<string> AddUser(RegisterRequest obj)
+    {
+        var username = obj.Username;
+        var password = obj.Password;
+        var email = obj.Email;
+
+        var query = "INSERT INTO Users (UserN, PassW, Email) VALUES (@username, @password, @email)";
+
+        using (var connectionToDb =
+               new SqlConnection(
+                   @"Data Source = ADI\SQLEXPRESS;Initial Catalog=RegisterToChatProject;Integrated Security=True"))
+        {
+            try
+            {
+                connectionToDb.Open();
+                using (var command = new SqlCommand(query, connectionToDb))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@email", email);
+                    await command.ExecuteNonQueryAsync();
+                    return "Registration successful";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Registration failed";
+            }
+        }
+    }
 
     public static void GetUsernameAndPassword(LoginRequest obj, out string username, out string password)
     {
         username = obj.Username;
         password = obj.Password;
     }
+    
+    
+    
 }

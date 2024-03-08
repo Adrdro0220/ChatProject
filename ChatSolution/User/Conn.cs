@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using ChatProtocol;
+using ChatProtocol.ChatHistory;
 
 namespace User;
 
@@ -8,7 +9,7 @@ internal class Conn
     public static bool Acces = false;
     private  Guid _guid = new();
     private Handler _handler;
-
+    History ChatHistory = new History();
     public Conn()
     {
         Client = new TcpClient("127.0.0.1", 13000);
@@ -24,11 +25,12 @@ internal class Conn
 
         _handler.Guid = _guid;
          Task.Run(async () => await ReceiveMessagesAsync()); // Uruchomienie asynchronicznej metody do odbierania wiadomości
-        
+        ChatHistory.ReadHistory();
     }
 
     public static string Username { get; set; }
     public static string Password { get; set; }
+    public static string Email { get; set;}
     public static TcpClient Client { get; set; }
     public static NetworkStream Stream { get; set; }
 
@@ -43,7 +45,7 @@ internal class Conn
     {
         while (true)
         {
-            Console.WriteLine("Odbieranie wiadomości");
+            
             var buffer = new byte[1024];
             var bytesRead = await Stream.ReadAsync(buffer, 0, buffer.Length);
             _handler.PacketRead = _handler.PacketReader.ReadPacket(buffer);
@@ -60,6 +62,17 @@ internal class Conn
                     Acces = false;
                 }
             }
+            Console.WriteLine("packet Read: " + _handler.PacketRead);
         }
+    }
+    
+    public void SendRegisterRequest(string username, string password, string email)
+    {
+        _handler.RegisterRequest.Username = username;
+        _handler.RegisterRequest.Password = password;
+        _handler.RegisterRequest.Email = email;
+        _handler.RegisterRequest.Guid = _guid;
+        _handler.PacketWriter.WritePacket(_handler.RegisterRequest);
+        _handler.PacketWriter.Flush(Stream);
     }
 }

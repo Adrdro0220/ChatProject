@@ -109,18 +109,14 @@ public class PacketReader
 
                 return JsonConvert.DeserializeObject<LoginResponse>(json);
                 break;
+            case 3:
+                return JsonConvert.DeserializeObject<RegisterRequest>(json);
+                break;
         }
 
         throw new Exception("Convertion Exception. Packet not found!");
         return null;
     }
-
-
-    //  private async Task AddUserToDictionary(string json, TcpClient client)
-    //  {
-    //     PacketMethods.GetUsernameAndPassword(json, out string username, out string password);
-    //      TcpServer._clients.Add(username, client);
-    //   }
 
     private byte[] GetSpecificBYtes(byte[] array, int offset, int arrayLenght)
     {
@@ -132,9 +128,9 @@ public class PacketReader
 
     private string TrimJson(string json)
     {
-        var index = json.IndexOf('}') + 1; // znajdź indeks pierwszego nawiasu zamykającego
-        if (index < json.Length) // jeśli istnieją dodatkowe znaki
-            json = json.Substring(0, index); // usuń dodatkowe znaki
+        var index = json.IndexOf('}') + 1; 
+        if (index < json.Length)
+            json = json.Substring(0, index); 
         return json;
     }
 }

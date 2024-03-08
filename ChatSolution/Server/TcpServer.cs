@@ -1,8 +1,7 @@
-﻿// TcpServer.cs
-
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using ChatProtocol;
+using ChatProtocol.ChatHistory;
 
 namespace Server;
 
@@ -10,7 +9,7 @@ public class TcpServer
 {
     public static Dictionary<Guid, TcpClient> Clients = new();
     private Handler _handler = new Handler();
-    private int _id;
+    History Chathistory = new History();
 
     public TcpServer()
     {
@@ -49,19 +48,31 @@ public class TcpServer
 
         while (true)
         {
-            Console.WriteLine("Odbieranie wiadomości");
 
+            _handler.NetworkStream = clientStream;
             var bytesRead = await clientStream.ReadAsync(buffer, 0, buffer.Length);
             if (bytesRead > 0) {_handler.PacketRead = _handler.PacketReader.ReadPacket(buffer);}
-           
+            if(_handler.PacketRead is MessagePacket)
+            {
+                MessagePacket messagePacket = (MessagePacket)_handler.PacketRead;
+                Chathistory.AppendLineToFile(messagePacket.Message);
+                Console.WriteLine("Packet read" + _handler.PacketRead);
+            }
         }
     }
 
 
     public async Task BroadcastToClients()
     {
-        var message = Console.ReadLine();
-        foreach (var connectedClient in Clients) await SendToClient(connectedClient.Value, message);
+        string? message = Console.ReadLine();
+        foreach (var connectedClient in Clients)
+        {
+            if (connectedClient.Value.Connected)
+            {
+                await SendToClient(connectedClient.Value, message);
+            }
+            
+        }
     }
 
 
