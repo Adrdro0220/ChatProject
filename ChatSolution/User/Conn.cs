@@ -36,6 +36,7 @@ internal class Conn
 
     public async Task SendMessageToServerAsync(string message)
     {
+         message = FilterMessage(message);
         _handler.MessagePacket.Message = message;
         _handler.PacketWriter.WritePacket(_handler.MessagePacket);
        await _handler.PacketWriter.Flush(Stream);
@@ -48,8 +49,7 @@ internal class Conn
             
             var buffer = new byte[1024];
             var bytesRead = await Stream.ReadAsync(buffer, 0, buffer.Length);
-            _handler.PacketRead = _handler.PacketReader.ReadPacket(buffer);
-
+            _handler.PacketRead =  _handler.PacketReader.ReadPacket(buffer);
             if (_handler.PacketRead is LoginResponse)
             {
                 if (_handler.HandleLoginResponse(_handler.PacketRead) == "Accept")
@@ -74,5 +74,10 @@ internal class Conn
         _handler.RegisterRequest.Guid = _guid;
         _handler.PacketWriter.WritePacket(_handler.RegisterRequest);
         _handler.PacketWriter.Flush(Stream);
+    }
+    private string FilterMessage(string message)
+    {
+        message = message.Replace("}", "");
+        return message;
     }
 }
