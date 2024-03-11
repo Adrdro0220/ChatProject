@@ -2,11 +2,10 @@
 
 namespace ChatClientApp.MVVM.View;
 
-public partial class MessagesView : UserControl
+public partial class LoginView : UserControl
 {
-    public MessagesView()
+    public LoginView()
     {
         InitializeComponent();
     }
-    
 }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ChatClientApp"
         xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="920"
@@ -16,9 +15,13 @@
         </Window.DataContext>
         <Border Background="#272438"
                 CornerRadius="20"
-                Padding="10">
+                Padding="10"
+                >
                 
                 <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="D:\ChatSolution\ChatSolution\ChatClientApp\Images\BackgroudImage.jpg"/>
+                    </Grid.Background>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -29,43 +32,50 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     
-                    <TextBlock Text="Hello World"
-                               HorizontalAlignment="Left"
+                    <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="Chat Application"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Foreground="white"
                                Background="Transparent"
-                               FontSize="20"
-                               Margin="20,0,0,0"
-                               FontFamily="Segoe UI"/>
+                               FontSize="25"
+                               FontFamily="Segoe UI"
+                               Name="TitleBox"/>
                     <StackPanel Grid.Row="1" Grid.Column="0"
-                                Margin="10,0,0,0">
+                                Margin="10,0,0,0"
+                                >
                         
                         <RadioButton
                                 Content="Home"
                                 FontSize="15"
                                 Style="{StaticResource RadioButtonStyle}"
-                                Margin="0,10,0,10"
+                                Margin="0,10,0,0"
                                 Command="{Binding HomeViewCommand}"/>
+                        <Separator Height="10" Background="Transparent"/>
                         <RadioButton
-                                Content="Messages"
+                            Content="Messages"
+                            FontSize="15"
+                            Style="{StaticResource RadioButtonStyle}"
+                            Command="{Binding MessagesViewCommand}"/>
+                        <Separator Height="10" Background="Transparent"/>
+                        <RadioButton
+                                Content="Login"
                                 FontSize="15"
                                 Style="{StaticResource RadioButtonStyle}"
-                                Command="{Binding MessagesViewCommand}"/>
+                                Command="{Binding LoginViewCommand}"/>
+                        <Separator Height="10" Background="Transparent"/>
+                        <RadioButton
+                            Content="Register"
+                            FontSize="15"
+                            Style="{StaticResource RadioButtonStyle}"
+                            Command="{Binding RegisterViewCommand}"/>
+
                     </StackPanel>
                     
-                    <TextBox 
-                            Width="500"
-                            Height="50"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Left"
-                            Grid.Column="1"
-                            Background="#E1F5FE"
-                            Text="Bar"
-                            FontFamily="Segoe UI"/>
+
                    
                     <ContentControl Grid.Row="1"
                                     Grid.Column="1"
-                                    Width="720"
+                                    Width="700"
                                     Height="400"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"

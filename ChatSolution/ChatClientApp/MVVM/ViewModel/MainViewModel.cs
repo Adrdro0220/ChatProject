@@ -6,6 +6,8 @@ public class MainViewModel : ObservableObject
 {
     public RelayCommand HomeViewCommand { get; set; }
     public RelayCommand MessagesViewCommand { get; set; }
+    public RelayCommand LoginViewCommand { get; set; }
+    public RelayCommand RegisterViewCommand { get; set; }
     
     public HomeViewModel HomeVM { get; set; }
     public MessagesViewModel MessagesVM { get; set; }
@@ -36,7 +38,15 @@ public class MainViewModel : ObservableObject
             {
             Currentview = MessagesVM;
         });
-        
+        LoginViewCommand = new RelayCommand(o =>
+            {
+            Currentview = new LoginViewModel();
+        });
+        RegisterViewCommand = new RelayCommand(o =>
+            {
+            Currentview = new RegisterViewModel();
+        });
     }
+    
     
 }

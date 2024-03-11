@@ -13,4 +13,9 @@
       <Folder Include="MVVM\Model\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Images\_9a393f69-9b38-429a-9edc-ca77b3000014.jpg" />
+      <Resource Include="Images\BackgroudImage.jpg" />
+    </ItemGroup>
+
 </Project>
