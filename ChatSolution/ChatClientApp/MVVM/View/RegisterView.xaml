@@ -5,45 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ChatClientApp.MVVM.View"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="350">
+             d:DesignHeight="400" d:DesignWidth="350">
     <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
+ <StackPanel Width="200">
+     <TextBlock Text="Register" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
+     <Label Content="Username"  />
+     <TextBox Name="UsernameBox" Width="200" Margin="0,0,0,10"/>
 
-        <Label Content="Username" Grid.Row="0"/>
-        <TextBox Name="UsernameBox" Grid.Row="1" Margin="0,0,0,10"/>
+     <Label Content="Password"  />
+     <PasswordBox Name="PasswordBox"  Margin="0,0,0,10"/>
 
-        <Label Content="Password" Grid.Row="2"/>
-        <PasswordBox Name="PasswordBox" Grid.Row="3" Margin="0,0,0,10"/>
+     <Label Content="Email"  />
+     <TextBox Name="EmailBox" LostFocus="EmailBox_LostFocus"/>
 
-        <Label Content="Email" Grid.Row="4"/>
-        <TextBox Grid.Row="5" Name="EmailBox" LostFocus="EmailBox_LostFocus"/>
-
-        <Button Content="Register" Grid.Row="6" Click="RegisterButton_Click"
-                VerticalAlignment="Bottom"
-                Height="40"
-                VerticalContentAlignment="Center"
+     <Button Content="Register"  Click="RegisterButton_Click"
+             VerticalAlignment="Bottom"
+             Height="40"
+             VerticalContentAlignment="Center"
+             Margin="0,40,0,0"
                 
-                >
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-            
-            
-            
-        </Button>
-        
+     >
+         <Button.Template>
+             <ControlTemplate TargetType="Button">
+                 <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                 </Border>
+             </ControlTemplate>
+         </Button.Template>
+     </Button>
+     
+     <TextBlock x:Name="ErrorTextBlockRegister" Text="" Foreground="Red" Margin="0 10 0 0"/>
+
+ </StackPanel>
     </Grid>
 </UserControl>

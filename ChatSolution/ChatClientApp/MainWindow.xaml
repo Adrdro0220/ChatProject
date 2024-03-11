@@ -77,7 +77,7 @@
                                     Grid.Column="1"
                                     Width="700"
                                     Height="400"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Content = "{Binding Currentview}"/>
                 </Grid>
