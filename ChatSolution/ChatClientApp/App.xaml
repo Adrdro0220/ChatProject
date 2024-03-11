@@ -1,13 +1,22 @@
 ﻿<Application x:Class="ChatClientApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ChatClientApp"
-             StartupUri="MainWindow.xaml">
+             xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
+             xmlns:view="clr-namespace:ChatClientApp.MVVM.View"
+             StartupUri="MainWindow.xaml"
+           >
     <Application.Resources>
          <ResourceDictionary>
              <ResourceDictionary.MergedDictionaries>
-                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"></ResourceDictionary>
+                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml" />
              </ResourceDictionary.MergedDictionaries>
+             
+             <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
+                 <view:HomeView />
+             </DataTemplate>
+             <DataTemplate DataType="{x:Type viewModel:MessagesViewModel}">
+                 <view:MessagesView />
+             </DataTemplate>
          </ResourceDictionary>
     </Application.Resources>
 </Application>
