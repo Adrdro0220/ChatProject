@@ -1,6 +1,14 @@
-﻿namespace ChatClientApp.MVVM.ViewModel
+﻿using System.Windows.Input;
+using ChatClientApp.Core;
+using ChatClientApp.MVVM.View;
+
+namespace ChatClientApp.MVVM.ViewModel
 {
-    public class HomeViewModel
+    public class HomeViewModel: ObservableObject
     {
+        public HomeViewModel()
+        {
+            
+        }
     }
 }

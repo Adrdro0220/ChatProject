@@ -4,10 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ChatClientApp.MVVM.View"
+             xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="720">
-    <Grid>
     
+    <UserControl.DataContext>
+        <viewModel:MainViewModel />
+    </UserControl.DataContext>
+    
+    <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Welcome to ChatApp!" FontSize="36" FontWeight="Bold" Foreground="White" TextAlignment="Center">
                 <TextBlock.Effect>
@@ -15,12 +20,11 @@
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock Text="Twoja aplikacja do łatwego i szybkiego komunikowania się z innymi." FontSize="22" Foreground="White" TextAlignment="Center" Margin="0,20,0,0"/>
-            <Button Content="Rozpocznij" Width="150" Height="50" Margin="0,40,0,0" Background="White" Foreground="DarkGreen">
+            <Button Command="{Binding LoginViewCommand }" Content="Rozpocznij" Width="150" Height="50" Margin="0,40,0,0" Background="White" Foreground="DarkGreen" >
                 <Button.Effect>
                     <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" Opacity="0.5"/>
                 </Button.Effect>
             </Button>
         </StackPanel>
-
     </Grid>
 </UserControl>

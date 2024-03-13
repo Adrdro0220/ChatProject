@@ -1,6 +1,8 @@
-﻿namespace ChatClientApp.MVVM.ViewModel;
+﻿using ChatClientApp.Core;
 
-public class MessagesViewModel
+namespace ChatClientApp.MVVM.ViewModel;
+
+public class MessagesViewModel: ObservableObject
 {
     
 }

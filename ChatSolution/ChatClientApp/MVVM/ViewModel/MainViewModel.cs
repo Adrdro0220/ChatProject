@@ -1,4 +1,5 @@
 ﻿using ChatClientApp.Core;
+using ChatClientApp.MVVM.View;
 
 namespace ChatClientApp.MVVM.ViewModel;
 
@@ -9,8 +10,6 @@ public class MainViewModel : ObservableObject
     public RelayCommand LoginViewCommand { get; set; }
     public RelayCommand RegisterViewCommand { get; set; }
     
-    public HomeViewModel HomeVM { get; set; }
-    public MessagesViewModel MessagesVM { get; set; }
     private object _currentview;
     public object Currentview {
         get
@@ -23,30 +22,29 @@ public class MainViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-    
-    
+
     public MainViewModel()
     {
-        HomeVM = new HomeViewModel();
-        MessagesVM = new MessagesViewModel();
-        Currentview = HomeVM;
+
+        Currentview = new HomeViewModel();
+        
+        
         HomeViewCommand = new RelayCommand(o =>
-            {
-            Currentview = HomeVM;
+        {
+            Currentview = new HomeViewModel();
         });
         MessagesViewCommand = new RelayCommand(o =>
-            {
-            Currentview = MessagesVM;
+        {
+            Currentview = new MessagesViewModel();
         });
         LoginViewCommand = new RelayCommand(o =>
-            {
+        {
             Currentview = new LoginViewModel();
         });
         RegisterViewCommand = new RelayCommand(o =>
-            {
+        {
             Currentview = new RegisterViewModel();
         });
     }
-    
     
 }

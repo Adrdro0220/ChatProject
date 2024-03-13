@@ -18,4 +18,13 @@
       <Resource Include="Images\BackgroudImage.jpg" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ChatProtocol\ChatProtocol.csproj" />
+      <ProjectReference Include="..\User\User.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
 </Project>

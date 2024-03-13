@@ -4,13 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ChatClientApp.MVVM.View"
+             xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="350">
+    
+    <UserControl.DataContext >
+        <viewModel:LoginViewModel></viewModel:LoginViewModel>
+    </UserControl.DataContext>
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Login" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
             <Label  Content="Username"/>
-            <TextBox x:Name="EmailTextBox"  Width="200" Margin="0 0 0 10"/>
+            <TextBox x:Name="LoginTextBox"  Width="200" Margin="0 0 0 10"/>
             <Label  Content="Password"/>
             <PasswordBox x:Name="PasswordBox"  Width="200" Margin="0 0 0 10"/>
 
@@ -19,6 +24,7 @@
                     Height="40"
                     VerticalContentAlignment="Center"
                     Margin="0,20,0,0"
+                    Command="{Binding HomeViewCommand}"
                 >
                 <Button.Template>
                     <ControlTemplate TargetType="Button">

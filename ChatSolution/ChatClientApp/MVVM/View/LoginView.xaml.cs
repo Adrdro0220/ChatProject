@@ -1,10 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ChatClientApp.Core;
+using ChatClientApp.MVVM.ViewModel;
+using ChatProtocol;
 
 namespace ChatClientApp.MVVM.View;
 
-public partial class LoginView : UserControl
+public partial class LoginView 
 {
+    
     public LoginView()
     {
         InitializeComponent();
@@ -12,26 +16,34 @@ public partial class LoginView : UserControl
     private void LoginButton_Click(object sender, RoutedEventArgs e)
     {
         // Pobierz wprowadzone dane z TextBoxów
-        string email = EmailTextBox.Text;
+        string login = LoginTextBox.Text;
         string password = PasswordBox.Password;
-
+        
+        Client.GetConnectionInstance().SendLoginRequest(login, password);
         // Przykładowa logika uwierzytelniania
-        if (AuthenticateUser(email, password))
+
+        int initialPacketCount = Client.GetConnectionInstance().PacketCount;
+        for (;;)
+        {
+            if (initialPacketCount < Client.GetConnectionInstance().PacketCount)
+            {
+                break;
+            }
+        }
+        if (Client.GetConnectionInstance().acces)
         {
             MessageBox.Show("Zalogowano pomyślnie!");
-            // Tutaj możesz otworzyć nowe okno lub wykonać inne operacje po zalogowaniu
+            
         }
         else
         {
             MessageBox.Show("Błąd logowania. Sprawdź dane i spróbuj ponownie.");
         }
+        PasswordBox.Password = "";
+        LoginTextBox.Text = "";
+        
+        
+        
     }
-
-    private bool AuthenticateUser(string email, string password)
-    {
-        // Tutaj zaimplementuj logikę uwierzytelniania
-        // Możesz sprawdzić dane w bazie danych, pliku konfiguracyjnym itp.
-        // W tym przykładzie zawsze zwracamy true dla celów demonstracyjnych
-        return true;
-    }
+    
 }

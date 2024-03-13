@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ChatClientApp.Core;
+using User;
 
 namespace ChatClientApp.MVVM.View;
 
@@ -15,10 +17,16 @@ public partial class RegisterView : UserControl
         string password = PasswordBox.Password;
         string email = EmailBox.Text;
 
-        // Add your registration logic here
+        Conn.Password = password;
+        Conn.Username = username;
+        Conn.Email = email;
+        Client.GetConnectionInstance().SendRegisterRequest(username, password, email);
+        
     }
     private void EmailBox_LostFocus(object sender, RoutedEventArgs e)
     {
+        
+        
         var textBox = sender as TextBox;
         if (textBox != null)
         {

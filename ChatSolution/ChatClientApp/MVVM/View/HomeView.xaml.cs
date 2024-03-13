@@ -1,11 +1,15 @@
-﻿using System.Windows.Controls;
-
-namespace ChatClientApp.MVVM.View;
-
-public partial class HomeView : UserControl
+﻿
+namespace ChatClientApp.MVVM.View
 {
-    public HomeView()
+    public partial class HomeView
     {
-        InitializeComponent();
+
+
+        public HomeView()
+        {
+            InitializeComponent();
+
+
+        }
     }
 }

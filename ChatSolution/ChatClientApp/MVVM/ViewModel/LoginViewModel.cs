@@ -1,6 +1,12 @@
-﻿namespace ChatClientApp.MVVM.ViewModel;
+﻿using ChatClientApp.Core;
+using ChatClientApp.MVVM.View;
 
-public class LoginViewModel
-{
-    
+namespace ChatClientApp.MVVM.ViewModel;
+
+public class LoginViewModel : ObservableObject{
+
+        public LoginViewModel()
+        {
+            
+         }
 }

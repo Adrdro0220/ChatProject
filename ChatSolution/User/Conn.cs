@@ -4,12 +4,15 @@ using ChatProtocol.ChatHistory;
 
 namespace User;
 
-internal class Conn
+public class Conn
 {
-    public static bool Acces = false;
-    private  Guid _guid = new();
-    private Handler _handler;
+    public static bool Acces { get; set; } = false;
+    public bool acces = Acces;
+    public  Guid _guid = new();
+    public Handler _handler;
     History ChatHistory = new History();
+    public int PacketCount = 0;
+    
     public Conn()
     {
         Client = new TcpClient("127.0.0.1", 13000);
@@ -50,18 +53,24 @@ internal class Conn
             var buffer = new byte[1024];
             var bytesRead = await Stream.ReadAsync(buffer, 0, buffer.Length);
             _handler.PacketRead =  _handler.PacketReader.ReadPacket(buffer);
+            
             if (_handler.PacketRead is LoginResponse)
             {
+                
                 if (_handler.HandleLoginResponse(_handler.PacketRead) == "Accept")
                 {
                     Console.WriteLine("Acces granted");
                     Acces = true;
+                    acces = true;
                 }
                 else
                 {
                     Acces = false;
+                    acces = false;
                 }
             }
+            PacketCount++;
+            
             Console.WriteLine("packet Read: " + _handler.PacketRead);
         }
     }
@@ -73,6 +82,15 @@ internal class Conn
         _handler.RegisterRequest.Email = email;
         _handler.RegisterRequest.Guid = _guid;
         _handler.PacketWriter.WritePacket(_handler.RegisterRequest);
+        _handler.PacketWriter.Flush(Stream);
+    }
+    
+    public void SendLoginRequest(string username, string password)
+    {
+        _handler.LoginRequest.Username = username;
+        _handler.LoginRequest.Password = password;
+        _handler.LoginRequest.Guid = _guid;
+        _handler.PacketWriter.WritePacket(_handler.LoginRequest);
         _handler.PacketWriter.Flush(Stream);
     }
     private string FilterMessage(string message)

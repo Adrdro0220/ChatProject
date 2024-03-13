@@ -19,7 +19,7 @@ public class Handler
     public  PacketReader PacketReader;
     public  PacketWriter PacketWriter;
     public RegisterRequest RegisterRequest;
-    RegisterResponse RegisterResponse;
+    public RegisterResponse RegisterResponse;
     public IPacket? PacketRead;
     private Dictionary<int, Delegate> PacketHandlers;
     
