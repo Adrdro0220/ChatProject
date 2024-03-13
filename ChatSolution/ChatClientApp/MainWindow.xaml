@@ -5,36 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
         xmlns:global="clr-namespace:"
+        xmlns:view="clr-namespace:ChatClientApp.MVVM.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="920"
+        Title="Klient Czatu" Height="600" Width="920"
         Background="transparent"
-        AllowsTransparency="True"
-        WindowStyle="None">
+        WindowStyle="SingleBorderWindow">
         
     <Window.DataContext>
         <viewModel:MainViewModel></viewModel:MainViewModel>
     </Window.DataContext>
     
-    
-        <Border Background="#272438"
-                CornerRadius="20"
-                Padding="10"
-                >
-                
-                <Grid>
-                    <Grid.Background>
-                        <ImageBrush ImageSource="D:\ChatSolution\ChatSolution\ChatClientApp\Images\BackgroudImage.jpg"/>
-                    </Grid.Background>
-                   
-
-                   
-                    <ContentControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    Width="700"
-                                    Height="400"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content = "{Binding Currentview }"/>
-                </Grid>
-        </Border>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type view:HomeView}">
+            <view:HomeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:MessagesViewModel}">
+            <view:MessagesView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
+            <view:LoginView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:RegisterViewModel}">
+            <view:RegisterView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
+            <view:HomeView />
+        </DataTemplate>
+    </Window.Resources>
+    <!-- <Border Background="#272438" CornerRadius="20" Padding="10"> -->
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="../Images/BackgroudImage.jpg"/>
+            </Grid.Background>
+            
+            <ContentControl Grid.Row="1"
+                            Grid.Column="1"
+                            Width="700"
+                            Height="400"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content = "{Binding CurrentView }"/>
+        </Grid>
+    <!-- </Border> -->
 </Window>
