@@ -47,4 +47,8 @@
                             Content = "{Binding CurrentView }"/>
         </Grid>
     <!-- </Border> -->
+<<<<<<< HEAD
 </Window>
+=======
+</Window>
+>>>>>>> 76aec74a5652788737cd89ea6400a7aea357c0b6
