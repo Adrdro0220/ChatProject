@@ -3,16 +3,19 @@
 public class History
 {
     const string filePath = "D:\\ChatSolution\\ChatHistory.txt";
-    public void ReadHistory()
+    public List<string> ReadHistory()
     {
+        List<string> list = new List<string>();
         using (StreamReader sr = File.OpenText(filePath))
         {
             string s = "";
             while ((s = sr.ReadLine()) != null)
             {
-                Console.WriteLine(s);
+                list.Add(s);
             }
         }
+
+        return list;
     }
     
     public  void AppendLineToFile(string lineToAppend)

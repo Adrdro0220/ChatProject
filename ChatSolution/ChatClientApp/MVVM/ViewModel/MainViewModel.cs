@@ -5,46 +5,23 @@ namespace ChatClientApp.MVVM.ViewModel;
 
 public class MainViewModel : ObservableObject
 {
-    public RelayCommand HomeViewCommand { get; set; }
-    public RelayCommand MessagesViewCommand { get; set; }
-    public RelayCommand LoginViewCommand { get; set; }
-    public RelayCommand RegisterViewCommand { get; set; }
     
-    private object _currentview;
-    public object Currentview {
+    private object _currentView;
+    public object CurrentView {
         get
         {
-            return _currentview;
+            return _currentView;
         }
         set
         {
-            _currentview = value;
+            _currentView = value;
             OnPropertyChanged();
         }
     }
 
     public MainViewModel()
     {
-
-        Currentview = new HomeViewModel();
-        
-        
-        HomeViewCommand = new RelayCommand(o =>
-        {
-            Currentview = new HomeViewModel();
-        });
-        MessagesViewCommand = new RelayCommand(o =>
-        {
-            Currentview = new MessagesViewModel();
-        });
-        LoginViewCommand = new RelayCommand(o =>
-        {
-            Currentview = new LoginViewModel();
-        });
-        RegisterViewCommand = new RelayCommand(o =>
-        {
-            Currentview = new RegisterViewModel();
-        });
+        CurrentView = new HomeViewModel();
     }
     
 }

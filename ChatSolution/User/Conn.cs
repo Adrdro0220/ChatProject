@@ -10,8 +10,16 @@ public class Conn
     public bool acces = Acces;
     public  Guid _guid = new();
     public Handler _handler;
-    History ChatHistory = new History();
+    public History ChatHistory = new History();
     public int PacketCount = 0;
+    
+    
+    public static string Username { get; set; }
+    public static string Password { get; set; }
+    public static string Email { get; set;}
+    public static TcpClient Client { get; set; }
+    public static NetworkStream Stream { get; set; }
+    
     
     public Conn()
     {
@@ -20,22 +28,13 @@ public class Conn
         _handler = new();
         _handler.MessagePacket.Guid = _guid;
         _handler.NetworkStream = Stream;
-        _handler.LoginRequest.Username = Username;
-        _handler.LoginRequest.Password = Password;
-        _handler.LoginRequest.Guid = _guid;
-        _handler.PacketWriter.WritePacket(_handler.LoginRequest);
-        _handler.PacketWriter.Flush(Stream);
-
         _handler.Guid = _guid;
+        
+        
          Task.Run(async () => await ReceiveMessagesAsync()); // Uruchomienie asynchronicznej metody do odbierania wiadomości
-        ChatHistory.ReadHistory();
+         
     }
 
-    public static string Username { get; set; }
-    public static string Password { get; set; }
-    public static string Email { get; set;}
-    public static TcpClient Client { get; set; }
-    public static NetworkStream Stream { get; set; }
 
     public async Task SendMessageToServerAsync(string message)
     {
@@ -93,6 +92,8 @@ public class Conn
         _handler.PacketWriter.WritePacket(_handler.LoginRequest);
         _handler.PacketWriter.Flush(Stream);
     }
+    
+    
     private string FilterMessage(string message)
     {
         message = message.Replace("}", "");

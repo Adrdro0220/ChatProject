@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using ChatClientApp.Core;
+using ChatClientApp.MVVM.ViewModel;
+using ChatProtocol;
 using User;
 
 namespace ChatClientApp.MVVM.View;
@@ -22,7 +24,48 @@ public partial class RegisterView : UserControl
         Conn.Email = email;
         Client.GetConnectionInstance().SendRegisterRequest(username, password, email);
         
+        int initialPacketCount = Client.GetConnectionInstance().PacketCount;
+        for (;;)
+        {
+            if (initialPacketCount < Client.GetConnectionInstance().PacketCount)
+            {
+                break;
+            }
+        }
+
+        RegisterResponse registerResponse = (RegisterResponse)Client.GetConnectionInstance()._handler.PacketRead;
+        
+        if (registerResponse.Message == "Registration successful")
+        {
+            MessageBox.Show("Zarejestrowano pomyślnie!");
+            
+        }
+        else
+        {
+            MessageBox.Show("Błąd Rejestracji. Sprawdź dane i spróbuj ponownie.");
+        }
+        
+        PasswordBox.Password = "";
+        UsernameBox.Text = "";
+        EmailBox.Text = "";
+        
+ 
     }
+    private void GoToLogin()
+    {
+        var mainWindow = Application.Current.MainWindow;
+            
+        if (mainWindow.DataContext is MainViewModel mainViewModel)
+        {
+            mainViewModel.CurrentView = new LoginViewModel();
+        }
+    }
+    
+    
+    
+    
+    
+    
     private void EmailBox_LostFocus(object sender, RoutedEventArgs e)
     {
         

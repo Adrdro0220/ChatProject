@@ -72,10 +72,12 @@ public class PacketReader
             return null;
         }
 
+        Console.WriteLine("Packet reader");
         //Convert payload to object 
         ObjectRead = AssemblePacket(packetContainer.Payload);
         Console.WriteLine(ObjectRead);
         _handler.Handle();
+        Console.WriteLine("Packet aaa");
 
         //Prepare object for next packet to come 
         _indicator = 0;
@@ -111,6 +113,9 @@ public class PacketReader
                 break;
             case 3:
                 return JsonConvert.DeserializeObject<RegisterRequest>(json);
+                break;
+            case 4:
+                return JsonConvert.DeserializeObject<RegisterResponse>(json);
                 break;
         }
 

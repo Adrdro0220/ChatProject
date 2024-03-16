@@ -6,6 +6,15 @@
              xmlns:local="clr-namespace:ChatClientApp.MVVM.View"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="350">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+
+    </UserControl.Resources>
     <Grid Margin="10">
  <StackPanel Width="200">
      <TextBlock Text="Register" HorizontalAlignment="Left" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
@@ -23,6 +32,7 @@
              Height="40"
              VerticalContentAlignment="Center"
              Margin="0,40,0,0"
+             Foreground="Green"
                 
      >
          <Button.Template>

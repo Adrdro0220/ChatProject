@@ -63,6 +63,7 @@ public class Handler
     }
     public void Handle()
     {
+        Console.WriteLine("Handling packet");
          if (PacketRead == null)
         {
             return;
@@ -119,7 +120,6 @@ public class Handler
         handler.RegisterResponse.Guid = handler.Guid;
         if (packet1 == null)
         {
-            
             handler.RegisterResponse.Message = "Registration failed null packet!";
             handler.PacketWriter.WritePacket(handler.RegisterResponse);
             handler.PacketWriter.Flush(handler.NetworkStream);
@@ -128,11 +128,14 @@ public class Handler
         }
         handler.RegisterResponse.Message = PacketMethods.AddUser(packet1).Result;
         handler.PacketWriter.WritePacket(handler.RegisterResponse);
+
+        
         handler.PacketWriter.Flush(handler.NetworkStream);
-        return;
+  
     }
     private void HandleRegisterResponse(IPacket packet , Handler handler)
     {
+        Console.WriteLine("Register response");
         RegisterResponse? packet1 = PacketReader.ObjectRead as RegisterResponse;
         if (packet1 == null)
         {

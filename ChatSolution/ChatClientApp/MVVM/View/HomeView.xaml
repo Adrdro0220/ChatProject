@@ -1,15 +1,15 @@
 ﻿<UserControl x:Class="ChatClientApp.MVVM.View.HomeView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:ChatClientApp.MVVM.View"
-             xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
-             mc:Ignorable="d"
-             d:DesignHeight="400" d:DesignWidth="720">
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:local="clr-namespace:ChatClientApp.MVVM.View"
+              xmlns:viewModel="clr-namespace:ChatClientApp.MVVM.ViewModel"
+              mc:Ignorable="d"
+              d:DesignHeight="400" d:DesignWidth="720">
     
     <UserControl.DataContext>
-        <viewModel:MainViewModel />
+        <viewModel:HomeViewModel />
     </UserControl.DataContext>
     
     <Grid>
@@ -20,7 +20,7 @@
                 </TextBlock.Effect>
             </TextBlock>
             <TextBlock Text="Twoja aplikacja do łatwego i szybkiego komunikowania się z innymi." FontSize="22" Foreground="White" TextAlignment="Center" Margin="0,20,0,0"/>
-            <Button Command="{Binding LoginViewCommand }" Content="Rozpocznij" Width="150" Height="50" Margin="0,40,0,0" Background="White" Foreground="DarkGreen" >
+            <Button Click="Button_Clicked" Content="Rozpocznij" Width="150" Height="50" Margin="0,40,0,0" Background="White" Foreground="DarkGreen" >
                 <Button.Effect>
                     <DropShadowEffect Color="Black" Direction="320" ShadowDepth="5" Opacity="0.5"/>
                 </Button.Effect>

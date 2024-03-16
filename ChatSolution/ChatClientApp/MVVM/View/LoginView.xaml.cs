@@ -33,7 +33,7 @@ public partial class LoginView
         if (Client.GetConnectionInstance().acces)
         {
             MessageBox.Show("Zalogowano pomyślnie!");
-            
+            MoveToMessages();
         }
         else
         {
@@ -46,4 +46,23 @@ public partial class LoginView
         
     }
     
+    private void MoveToMessages()
+    {
+        var mainWindow = Application.Current.MainWindow;
+            
+        if (mainWindow.DataContext is MainViewModel mainViewModel)
+        {
+            mainViewModel.CurrentView = new MessagesViewModel();
+        }
+    }
+
+    private void RegisterButton_Click(object sender, RoutedEventArgs e)
+    {
+        var mainWindow = Application.Current.MainWindow;
+            
+        if (mainWindow.DataContext is MainViewModel mainViewModel)
+        {
+            mainViewModel.CurrentView = new RegisterViewModel();
+        }
+    }
 }
