@@ -9,7 +9,7 @@ public class TcpServer
 {
     public static Dictionary<Guid, TcpClient> Clients = new();
     private Handler _handler = new Handler();
-    History Chathistory = new History();
+
 
     public TcpServer()
     {
@@ -55,7 +55,6 @@ public class TcpServer
             if(_handler.PacketRead is MessagePacket)
             {
                 MessagePacket messagePacket = (MessagePacket)_handler.PacketRead;
-                Chathistory.AppendLineToFile(messagePacket.Message);
                 Console.WriteLine("Packet read" + _handler.PacketRead);
             }
         }

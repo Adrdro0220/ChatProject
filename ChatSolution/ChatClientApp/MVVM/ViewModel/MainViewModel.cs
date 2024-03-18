@@ -22,26 +22,6 @@ public class MainViewModel : ObservableObject
     public MainViewModel()
     {
         CurrentView = new HomeViewModel();
-<<<<<<< HEAD
-=======
-        
-        HomeViewCommand = new RelayCommand(o =>
-        {
-            CurrentView = new HomeViewModel();
-        });
-        MessagesViewCommand = new RelayCommand(o =>
-        {
-            CurrentView = new MessagesViewModel();
-        });
-        LoginViewCommand = new RelayCommand(o =>
-        {
-            CurrentView = new LoginViewModel();
-        });
-        RegisterViewCommand = new RelayCommand(o =>
-        {
-            CurrentView = new RegisterViewModel();
-        });
->>>>>>> 76aec74a5652788737cd89ea6400a7aea357c0b6
     }
     
 }

@@ -3,12 +3,14 @@ using System.Windows.Controls;
 using ChatClientApp.Core;
 using ChatClientApp.MVVM.ViewModel;
 using ChatProtocol;
+using ChatProtocol.ChatHistory;
+using User;
 
 namespace ChatClientApp.MVVM.View;
 
 public partial class LoginView 
 {
-    
+    private Conn client = Client.GetConnectionInstance();
     public LoginView()
     {
         InitializeComponent();
@@ -22,25 +24,29 @@ public partial class LoginView
         Client.GetConnectionInstance().SendLoginRequest(login, password);
         // Przykładowa logika uwierzytelniania
 
-        int initialPacketCount = Client.GetConnectionInstance().PacketCount;
+        int initialPacketCount = client.PacketCount;
         for (;;)
         {
-            if (initialPacketCount < Client.GetConnectionInstance().PacketCount)
+            if (initialPacketCount < client.PacketCount)
             {
                 break;
             }
         }
+        
+        
         if (Client.GetConnectionInstance().acces)
         {
-            MessageBox.Show("Zalogowano pomyślnie!");
+            ErrorTextBlockLogin.Text = "Zalogowano pomyślne!";
+            client.ChatHistory = new History(login);
             MoveToMessages();
         }
         else
         {
-            MessageBox.Show("Błąd logowania. Sprawdź dane i spróbuj ponownie.");
+            ErrorTextBlockLogin.Text = "Błąd logowania, Spróbuj ponownie.";
+            PasswordBox.Password = "";
+            LoginTextBox.Text = "";
         }
-        PasswordBox.Password = "";
-        LoginTextBox.Text = "";
+        
         
         
         

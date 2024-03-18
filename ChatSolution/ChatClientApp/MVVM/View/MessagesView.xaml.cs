@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using ChatClientApp.Core;
 using ChatClientApp.MVVM.ViewModel;
 using User;
@@ -13,23 +14,29 @@ public partial class MessagesView : UserControl
     public MessagesView()
     {
         InitializeComponent();
-        this.DataContext = new MessagesViewModel();
+        DataContext = new MessagesViewModel();
     }
 
     private void SendMessage(object sender, RoutedEventArgs e)
     {
+        if (MessageTextBox.Text == "")
+        {
+            return;
+        }
+        
         try
         {
             client.ChatHistory.AppendLineToFile(MessageTextBox.Text);
+            
         }
         catch (Exception exception)
         {
             Console.WriteLine(exception);
             throw;
         }
-        this.DataContext = new MessagesViewModel();
-        MessageTextBox.Clear();
-
+        
+        DataContext = new MessagesViewModel();
+        
         try
         {
             if (messagesListBox.Items.Count > 0)
@@ -41,6 +48,15 @@ public partial class MessagesView : UserControl
         {
             Console.WriteLine(exception);
             throw;
+        }
+        MessageTextBox.Text = "";
+    }
+
+    private void MessageTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            SendMessage(sender, e);
         }
     }
 }

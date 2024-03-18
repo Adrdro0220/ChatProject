@@ -37,12 +37,13 @@ public partial class RegisterView : UserControl
         
         if (registerResponse.Message == "Registration successful")
         {
-            MessageBox.Show("Zarejestrowano pomyślnie!");
-            
+            ErrorTextBlockRegister.Text = registerResponse.Message;
+            GoToLogin();
         }
+        
         else
         {
-            MessageBox.Show("Błąd Rejestracji. Sprawdź dane i spróbuj ponownie.");
+            ErrorTextBlockRegister.Text = registerResponse.Message;
         }
         
         PasswordBox.Password = "";

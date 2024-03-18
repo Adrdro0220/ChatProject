@@ -10,7 +10,7 @@ public class Conn
     public bool acces = Acces;
     public  Guid _guid = new();
     public Handler _handler;
-    public History ChatHistory = new History();
+    public History ChatHistory;
     public int PacketCount = 0;
     
     

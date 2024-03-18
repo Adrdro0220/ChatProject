@@ -19,11 +19,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="MessageTextBox" Grid.Column="0" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" Text="" />
-            <Button x:Name="SendButton" Click="SendMessage" Grid.Column="1" Margin="5" Content="Send"  Foreground="Green"/>
+        <TextBox x:Name="MessageTextBox" Grid.Column="0" Margin="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsTab="True" KeyDown="MessageTextBox_KeyDown" />
+            <Button Click="SendMessage" Grid.Column="1" Margin="5" Content="Send"  Foreground="Green"/>
     </Grid>
-    <ListBox x:Name="messagesListBox" Background="Tomato" Grid.Row="1" ItemsSource="{Binding Messages}" Margin="5" />
-    <TextBlock x:Name="ErrorTextBlock" Grid.Row="2" Margin="5" Text="{Binding ErrorText}" Foreground="Red" />
+    <ListBox  x:Name="messagesListBox" Background="Transparent" Foreground="Azure" Grid.Row="1" ItemsSource="{Binding Messages}" Margin="5" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" />
 </Grid>
         
 </UserControl>

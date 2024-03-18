@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-﻿using System.Windows;
-=======
-﻿
-using System.Windows;
->>>>>>> 76aec74a5652788737cd89ea6400a7aea357c0b6
+ using System.Windows;
+ 
 using ChatClientApp.MVVM.ViewModel;
 
 namespace ChatClientApp.MVVM.View

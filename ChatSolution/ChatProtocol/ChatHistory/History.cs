@@ -2,7 +2,17 @@
 
 public class History
 {
-    const string filePath = "D:\\ChatSolution\\ChatHistory.txt";
+    
+    
+    public const string filePath = "D:\\ChatSolution\\ChatHistory.txt";
+    private string username;
+
+    public History(string username)
+    {
+        this.username = username;
+    }
+   
+    
     public List<string> ReadHistory()
     {
         List<string> list = new List<string>();
@@ -20,11 +30,12 @@ public class History
     
     public  void AppendLineToFile(string lineToAppend)
     {
+        
         using (StreamWriter sw = File.AppendText(filePath))
         {
-            sw.WriteLine(lineToAppend);
+            sw.WriteLine($"{username} : {lineToAppend}");
         }
+        
     }
-    
-
 }
+

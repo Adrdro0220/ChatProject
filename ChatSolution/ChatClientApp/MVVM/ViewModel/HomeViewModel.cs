@@ -1,6 +1,5 @@
-﻿using System.Windows.Input;
-using ChatClientApp.Core;
-using ChatClientApp.MVVM.View;
+﻿using ChatClientApp.Core;
+
 
 namespace ChatClientApp.MVVM.ViewModel
 {
